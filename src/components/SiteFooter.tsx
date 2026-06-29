@@ -36,7 +36,7 @@ export function SiteFooter() {
           <ul className="mt-4 space-y-3 text-sm text-[color:var(--cream)]/80">
             <li>info@avgcstudio.com</li>
             <li>+91 92669 85959</li>
-            <li>WhatsApp · Mon–Fri</li>
+            <li>WhatsApp · Mon–Sat</li>
           </ul>
           <Link to="/contact" className="btn-gold mt-6" style={{ height: 48 }}>
             Start a Conversation
