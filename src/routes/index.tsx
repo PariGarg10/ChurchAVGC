@@ -4,12 +4,14 @@ import workSermon from "@/assets/work-sermon.jpg";
 import workAnimation from "@/assets/work-animation.jpg";
 import workPodcast from "@/assets/work-podcast.jpg";
 import workSocial from "@/assets/work-social.jpg";
-import pastor1 from "@/assets/pastor-1.jpg";
-import pastor2 from "@/assets/pastor-2.jpg";
-import pastor3 from "@/assets/pastor-3.jpg";
+import testimonialSohini from "@/assets/testimonial-sohini-ghoshal.png";
+import testimonialEduardo from "@/assets/testimonial-eduardo-acin.png";
+import testimonialDavid from "@/assets/testimonial-david-salas.png";
+import testimonialMosongo from "@/assets/testimonial-mosongo-osong.png";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
+import { TestimonialVideo } from "@/components/TestimonialVideo";
 import { useState } from "react";
 
 export const Route = createFileRoute("/")({
@@ -627,25 +629,27 @@ function Testimonials() {
         "We have worked with AVGC Studios for a year now on video editing, illustrations, and ILO development projects. They consistently deliver high-quality, polished, creative output while working with tight timelines and large volumes. Their quality control is solid, their communication is smooth, and they address review notes quickly. They\u2019re a reliable and valued partner!",
       name: "Sohini Ghoshal",
       church: "Project Manager, Creator UP",
-      img: pastor1,
+      img: testimonialSohini,
     },
     {
       quote:
         "Although Shackleton Kids is a children\u2019s publisher, a few years ago we decided to create our own YouTube channel where we upload animated versions of our stories. Two years ago, we met AVGC Studios, and since then they have become our partner for the development of our audiovisual content, with whom we continue to work year after year. I could highlight the quality of their work, their flexibility in adapting to our needs, or their punctuality in deliveries, but for me the most important thing is the feeling of transparency and honesty. That\u2019s why we\u2019ve just renewed our contract with them for another year.",
       name: "Eduardo Acin",
       church: "Partner & Publishing Director, Shackleton Kids",
-      img: pastor2,
+      img: testimonialEduardo,
     },
     {
       name: "David Salas",
       church: "Director, Revelation Media",
-      img: pastor3,
+      img: testimonialDavid,
+      poster: testimonialDavid,
       videoUrl: "https://drive.google.com/file/d/1f6wzYMRVZlt4SMg2lmsuSgqY1k2nWfbR/view",
     },
     {
       name: "Mosongo Osong",
       church: "Founder, Catholic Brain",
-      img: pastor1,
+      img: testimonialMosongo,
+      poster: testimonialMosongo,
       videoUrl: "https://drive.google.com/file/d/1xUjr0zmOTqlrBjdB5bwZHKlWs3g2MS6v/view",
     },
   ];
@@ -679,14 +683,12 @@ function Testimonials() {
                   <p className="font-serif text-3xl md:text-4xl leading-[1.15] text-[color:var(--navy)]">
                     Hear from {cur.name.split(" ")[0]} about partnering with AVGC Studios.
                   </p>
-                  <a
-                    href={cur.videoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-primary mt-10 inline-flex"
-                  >
-                    Watch Video Testimonial
-                  </a>
+                  <TestimonialVideo
+                    key={cur.videoUrl}
+                    videoUrl={cur.videoUrl}
+                    poster={"poster" in cur ? cur.poster : cur.img}
+                    name={cur.name}
+                  />
                 </div>
               ) : (
                 <div className="font-serif text-4xl md:text-5xl leading-[1.15] text-[color:var(--navy)]">
