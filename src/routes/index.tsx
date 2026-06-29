@@ -664,14 +664,16 @@ function Testimonials() {
         <Reveal delay={100}>
           <div className="mt-8 grid gap-12 md:grid-cols-[1fr_2fr] items-center">
             <div className="flex md:flex-col items-center md:items-start gap-4">
-              <img
-                src={cur.img}
-                alt={cur.name}
-                width={640}
-                height={640}
-                loading="lazy"
-                className="h-44 w-44 md:h-72 md:w-72 rounded-2xl object-cover"
-              />
+              <div className="h-44 w-44 md:h-72 md:w-72 shrink-0 overflow-hidden rounded-2xl bg-[color:var(--background)]">
+                <img
+                  src={cur.img}
+                  alt={cur.name}
+                  width={640}
+                  height={640}
+                  loading="lazy"
+                  className="h-full w-full object-cover"
+                />
+              </div>
               <div className="md:mt-6">
                 <div className="font-serif text-xl text-[color:var(--navy)]">{cur.name}</div>
                 <div className="text-sm text-[color:var(--muted-foreground)]">{cur.church}</div>
