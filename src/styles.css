@@ -190,7 +190,13 @@
 }
 
 @keyframes flowDraw {
+  from { stroke-dashoffset: 1; }
   to { stroke-dashoffset: 0; }
+}
+
+@keyframes flowSpineGrow {
+  from { transform: scaleY(0); opacity: 0.4; }
+  to { transform: scaleY(1); opacity: 1; }
 }
 
 @keyframes float-up {

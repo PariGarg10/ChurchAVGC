@@ -183,13 +183,101 @@ function SermonFlow() {
   ];
   const byId = Object.fromEntries(nodes.map((n) => [n.id, n]));
 
-  // Build smooth vertical cubic-bezier path
-  const path = (a: FlowNode, b: FlowNode) => {
-    const dy = b.y - a.y;
-    const c1y = a.y + dy * 0.55;
-    const c2y = b.y - dy * 0.55;
-    return `M ${a.x} ${a.y} C ${a.x} ${c1y}, ${b.x} ${c2y}, ${b.x} ${b.y}`;
+  const anchorOffset = (level: FlowNode["level"]) =>
+    ({ 0: 2.6, 1: 2.8, 2: 2.5, 3: 2.5, 4: 2.7, 5: 3.2 })[level];
+
+  const anchor = (node: FlowNode, side: "top" | "bottom") => {
+    const offset = anchorOffset(node.level);
+    return { x: node.x, y: side === "top" ? node.y - offset : node.y + offset };
   };
+
+  const isSpineLink = (a: FlowNode, b: FlowNode) => Math.abs(a.x - b.x) < 0.5;
+
+  const spineLinks = links.filter(([a, b]) => isSpineLink(byId[a], byId[b]));
+  const branchLinks = links.filter(([a, b]) => !isSpineLink(byId[a], byId[b]));
+
+  const path = (a: FlowNode, b: FlowNode) => {
+    const start = anchor(a, "bottom");
+    const end = anchor(b, "top");
+    const dy = end.y - start.y;
+    const c1y = start.y + dy * 0.55;
+    const c2y = end.y - dy * 0.55;
+    return `M ${start.x} ${start.y} C ${start.x} ${c1y}, ${end.x} ${c2y}, ${end.x} ${end.y}`;
+  };
+
+  const renderBranchLinks = () =>
+    branchLinks.map(([a, b], i) => {
+      const A = byId[a];
+      const B = byId[b];
+      const d = path(A, B);
+      return (
+        <g key={`branch-${a}-${b}`}>
+          <path
+            d={d}
+            fill="none"
+            stroke="#C6A15B"
+            strokeWidth={2}
+            strokeLinecap="round"
+            opacity={0.35}
+            vectorEffect="non-scaling-stroke"
+          />
+          <path
+            d={d}
+            fill="none"
+            stroke="#C6A15B"
+            strokeWidth={2}
+            strokeLinecap="round"
+            filter="url(#flowGlow)"
+            opacity={0.95}
+            vectorEffect="non-scaling-stroke"
+            pathLength={1}
+            strokeDasharray="1 1"
+            strokeDashoffset="1"
+            style={{
+              animation: `flowDraw 1.6s ${0.3 + i * 0.12}s cubic-bezier(.4,.0,.2,1) forwards`,
+            }}
+          />
+          <circle r="1.5" fill="#C6A15B" opacity="0" vectorEffect="non-scaling-size">
+            <animateMotion dur="3.2s" begin={`${1.2 + i * 0.25}s`} repeatCount="indefinite" path={d} />
+            <animate attributeName="opacity" values="0;1;1;0" dur="3.2s" begin={`${1.2 + i * 0.25}s`} repeatCount="indefinite" />
+          </circle>
+        </g>
+      );
+    });
+
+  const renderSpineLinks = () =>
+    spineLinks.map(([a, b], i) => {
+      const A = byId[a];
+      const B = byId[b];
+      const start = anchor(A, "bottom");
+      const end = anchor(B, "top");
+      const height = end.y - start.y;
+      if (height <= 0) return null;
+      const midY = start.y + height / 2;
+
+      return (
+        <div key={`spine-${a}-${b}`} className="pointer-events-none">
+          <div
+            className="absolute z-[4] -translate-x-1/2 rounded-full bg-[#C6A15B]/30"
+            style={{ left: `${start.x}%`, top: `${start.y}%`, width: 2, height: `${height}%` }}
+          />
+          <div
+            className="absolute z-[4] origin-top rounded-full bg-[#C6A15B] shadow-[0_0_12px_rgba(198,161,91,0.85)] animate-[flowSpineGrow_1.2s_ease-out_forwards]"
+            style={{
+              left: `calc(${start.x}% - 1px)`,
+              top: `${start.y}%`,
+              width: 2,
+              height: `${height}%`,
+              animationDelay: `${0.2 + i * 0.1}s`,
+            }}
+          />
+          <div
+            className="absolute z-[4] h-1 w-1 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#C6A15B] shadow-[0_0_6px_rgba(198,161,91,0.8)]"
+            style={{ left: `${start.x}%`, top: `${midY}%` }}
+          />
+        </div>
+      );
+    });
 
   return (
     <section className="section-y relative overflow-hidden bg-[color:var(--navy)] text-[color:var(--cream)]">
@@ -219,51 +307,17 @@ function SermonFlow() {
             <div className="absolute top-5 left-6 text-[10px] tracking-[0.2em] uppercase text-[color:var(--cream)]/45">Origin</div>
             <div className="absolute bottom-5 right-6 text-[10px] tracking-[0.2em] uppercase text-[color:var(--gold)]">Impact</div>
 
-            <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
+            <svg viewBox="0 0 100 100" className="absolute inset-0 z-[1] h-full w-full pointer-events-none" preserveAspectRatio="none">
               <defs>
-                <linearGradient id="flowGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="var(--cream)" stopOpacity="0.35" />
-                  <stop offset="50%" stopColor="var(--gold)" stopOpacity="0.9" />
-                  <stop offset="100%" stopColor="var(--gold)" stopOpacity="0.6" />
-                </linearGradient>
-                <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur stdDeviation="0.6" result="b" />
+                <filter id="flowGlow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="1.2" result="b" />
                   <feMerge>
                     <feMergeNode in="b" />
                     <feMergeNode in="SourceGraphic" />
                   </feMerge>
                 </filter>
               </defs>
-
-              {links.map(([a, b], i) => {
-                const A = byId[a];
-                const B = byId[b];
-                return (
-                  <g key={i}>
-                    <path
-                      d={path(A, B)}
-                      fill="none"
-                      stroke="url(#flowGrad)"
-                      strokeWidth={0.35}
-                      strokeLinecap="round"
-                      pathLength={1}
-                      strokeDasharray="1 1"
-                      strokeDashoffset="1"
-                      filter="url(#glow)"
-                      style={{ animation: `flowDraw 1.6s ${0.3 + i * 0.12}s cubic-bezier(.4,.0,.2,1) forwards`, opacity: 0.85 }}
-                    />
-                    <circle r="0.5" fill="var(--gold)" opacity="0">
-                      <animateMotion
-                        dur="3.2s"
-                        begin={`${1.2 + i * 0.25}s`}
-                        repeatCount="indefinite"
-                        path={path(A, B)}
-                      />
-                      <animate attributeName="opacity" values="0;1;1;0" dur="3.2s" begin={`${1.2 + i * 0.25}s`} repeatCount="indefinite" />
-                    </circle>
-                  </g>
-                );
-              })}
+              {renderBranchLinks()}
             </svg>
 
             {nodes.map((n, i) => {
@@ -273,7 +327,7 @@ function SermonFlow() {
               return (
                 <div
                   key={n.id}
-                  className="absolute -translate-x-1/2 -translate-y-1/2 group"
+                  className="absolute z-[2] -translate-x-1/2 -translate-y-1/2 group"
                   style={{ left: `${n.x}%`, top: `${n.y}%`, animation: `float-up 0.7s ${0.1 + i * 0.1}s ease-out both` }}
                 >
                   {/* halo */}
@@ -305,6 +359,8 @@ function SermonFlow() {
                 </div>
               );
             })}
+
+            {renderSpineLinks()}
           </div>
         </Reveal>
 
@@ -725,7 +781,6 @@ function FAQ() {
     { q: "What partnership tiers do you offer?", a: "We offer Essential Ministry, Growth Ministry, and Strategic Ministry Partner — each designed for different stages of content expansion. Contact us to find the right fit for your ministry." },
     { q: "Do you work with churches of every denomination?", a: "Yes. We collaborate with faith-based organizations, churches, ministries, and mission-focused initiatives across denominations and traditions." },
     { q: "What content can you help us repurpose?", a: "Sermons, Bible studies, podcasts, testimonies, children's ministry lessons, mission updates, and leadership training — all enhanced with visuals, animation, and storytelling." },
-    { q: "Where is AVGC Studios based?", a: "AVGC Studios is a creative production company based in India, serving clients across the globe through a highly skilled team of artists, animators, editors, and creative specialists." },
     { q: "How do you help ministries reach modern audiences?", a: "The Gospel remains timeless. But reaching modern audiences often requires meeting them where they already are — YouTube, podcasts, social media, streaming platforms, and mobile devices." },
   ];
   const [open, setOpen] = useState<number | null>(0);
