@@ -2,9 +2,9 @@ import { Link } from "@tanstack/react-router";
 
 export function SiteFooter() {
   return (
-    <footer className="bg-[color:var(--navy)] text-[color:var(--cream)]">
-      <div className="container-page py-20 grid gap-12 md:grid-cols-4">
-        <div className="md:col-span-2">
+    <footer className="bg-[#2A1C14] text-[color:var(--cream)]">
+      <div className="container-page py-20 grid grid-cols-4 gap-12">
+        <div className="col-span-2">
           <div className="font-serif text-2xl">
             AVGC Studios
           </div>
@@ -44,8 +44,18 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="border-t border-white/10">
-        <div className="container-page py-6 flex flex-col md:flex-row justify-between gap-3 text-xs text-[color:var(--cream)]/60">
-          <div>© {new Date().getFullYear()} AVGC Studios. All rights reserved.</div>
+        <div className="container-page py-6 flex flex-row justify-between gap-3 text-xs text-[color:var(--cream)]/60">
+          <div className="flex items-center gap-4">
+            <span>© {new Date().getFullYear()} AVGC Studios. All rights reserved.</span>
+            <span className="text-[color:var(--cream)]/30">|</span>
+            <a href="/privacy-policy" className="hover:text-[color:var(--gold)] transition-colors">
+              Privacy Policy
+            </a>
+            <span className="text-[color:var(--cream)]/30">|</span>
+            <a href="/terms-and-conditions" className="hover:text-[color:var(--gold)] transition-colors">
+              Terms & Conditions
+            </a>
+          </div>
           <div>For the glory of God and the good of His Church.</div>
         </div>
       </div>

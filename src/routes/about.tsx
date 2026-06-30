@@ -8,7 +8,7 @@ export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
       { title: "About — AVGC Studios" },
-      { name: "description", content: "AVGC Studios is a creative production company based in India, serving ministries worldwide." },
+      { name: "description", content: "AVGC Studios is a creative production company serving ministries worldwide." },
       { property: "og:title", content: "About AVGC Studios" },
       { property: "og:description", content: "Who we are and our core competencies." },
     ],
@@ -54,7 +54,7 @@ function AboutPage() {
           <Reveal delay={120}>
             <div className="space-y-6 text-[color:var(--muted-foreground)] leading-relaxed text-lg">
               <p>
-                AVGC Studios is a creative production company based in India, serving clients
+                AVGC Studios is a creative production company serving clients
                 across the globe through a highly skilled team of artists, animators, editors,
                 instructional designers, and creative specialists.
               </p>

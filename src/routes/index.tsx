@@ -1,9 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import heroImg from "@/assets/hero-worship.jpg";
-import workSermon from "@/assets/work-sermon.jpg";
-import workAnimation from "@/assets/work-animation.jpg";
-import workPodcast from "@/assets/work-podcast.jpg";
-import workSocial from "@/assets/work-social.jpg";
+import reelPanel1 from "@/assets/work-reel-panel-1.png";
+import reelPanel2 from "@/assets/work-reel-panel-2.png";
 import testimonialSohini from "@/assets/testimonial-sohini-ghoshal.png";
 import testimonialEduardo from "@/assets/testimonial-eduardo-acin.png";
 import testimonialDavid from "@/assets/testimonial-david-salas.png";
@@ -11,6 +9,9 @@ import testimonialMosongo from "@/assets/testimonial-mosongo-osong.png";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
+import { FilmReelBackdrop } from "@/components/FilmReelBackdrop";
+import { ProductionVideo } from "@/components/ProductionVideo";
+import { productionVideos } from "@/data/production-videos";
 import { TestimonialVideo } from "@/components/TestimonialVideo";
 import { useState } from "react";
 
@@ -75,9 +76,7 @@ function Hero() {
           </p>
           <div className="mt-10 flex flex-wrap gap-4">
             <Link to="/work" className="btn-gold">View Our Work</Link>
-            <Link to="/contact" className="btn-ghost text-[color:var(--cream)] border-[color:var(--cream)]/40 hover:!text-[color:var(--cream)]">
-              Schedule a Conversation
-            </Link>
+            <Link to="/contact" className="btn-gold">Schedule a Conversation</Link>
           </div>
           <p className="mt-10 text-xs tracking-[0.18em] uppercase text-[color:var(--cream)]/55">
             Most ministries already have valuable content
@@ -119,7 +118,7 @@ function ServicesOverview() {
           </div>
         </Reveal>
 
-        <div className="mt-16 grid gap-px bg-[color:var(--border)] md:grid-cols-2 rounded-2xl overflow-hidden border border-[color:var(--border)]">
+        <div className="mt-16 grid grid-cols-2 gap-px bg-[color:var(--border)] rounded-2xl overflow-hidden border border-[color:var(--border)]">
           {items.map((it, i) => (
             <Reveal key={it.title} delay={i * 90}>
               <article className="bg-[color:var(--background)] p-10 md:p-14 h-full group transition-colors hover:bg-white">
@@ -144,148 +143,27 @@ function ServicesOverview() {
   );
 }
 
-/* ---------- 3. SERMON FLOW — interactive ---------- */
-type FlowNode = {
-  id: string;
-  label: string;
-  x: number;
-  y: number;
-  level: 0 | 1 | 2 | 3 | 4 | 5;
-  icon?: string;
-  meta?: string;
-};
-
+/* ---------- 3. SERMON FLOW CARDS ---------- */
 function SermonFlow() {
-  const nodes: FlowNode[] = [
-    { id: "sermon", label: "1 Sermon", x: 50, y: 7, level: 0, icon: "✦", meta: "Source" },
-    { id: "edit", label: "1 Enhanced Video", x: 50, y: 24, level: 1, icon: "✎", meta: "Craft" },
-    { id: "yt", label: "10 Social Posts", x: 16, y: 44, level: 2, icon: "▶", meta: "Social" },
-    { id: "pod", label: "Podcast Content", x: 50, y: 44, level: 2, icon: "♪", meta: "Audio" },
-    { id: "fb", label: "20 Shorts", x: 84, y: 44, level: 2, icon: "f", meta: "Short-form" },
-    { id: "ig", label: "Social Media", x: 16, y: 64, level: 3, icon: "◐", meta: "Reels" },
-    { id: "web", label: "Unlimited Audience", x: 50, y: 64, level: 3, icon: "◉", meta: "Reach" },
-    { id: "email", label: "Content Repurposing", x: 84, y: 64, level: 3, icon: "✉", meta: "Multiply" },
-    { id: "anim", label: "Enhanced Storytelling", x: 50, y: 82, level: 4, icon: "✺", meta: "Visual" },
-    { id: "lives", label: "Thousands More Opportunities To Engage", x: 50, y: 95, level: 5, icon: "✿", meta: "Impact" },
+  const cards = [
+    { step: "1", phase: "Origin", title: "One Sunday", chips: [{ label: "Sunday Sermon", icon: "✦" }], variant: "origin" as const },
+    { step: "2", phase: "Craft", title: "Shaped with care", chips: [{ label: "Professional Editing", icon: "✎" }] },
+    { step: "3", phase: "Long-form", title: "Where people watch & listen", chips: [{ label: "YouTube", icon: "▶" }, { label: "Podcast", icon: "♪" }, { label: "Facebook", icon: "f" }] },
+    { step: "4", phase: "Short-form", title: "Where people scroll", chips: [{ label: "Instagram", icon: "◐" }, { label: "Website", icon: "◉" }, { label: "Email", icon: "✉" }] },
+    { step: "5", phase: "Discipleship", title: "Truth, made memorable", chips: [{ label: "Animated Bible Lessons", icon: "✺" }] },
+    { step: "6", phase: "Impact", title: "Thousands more reached", chips: [{ label: "Lives Touched", icon: "✿" }], variant: "impact" as const },
   ];
-  const links: [string, string][] = [
-    ["sermon", "edit"],
-    ["edit", "yt"],
-    ["edit", "pod"],
-    ["edit", "fb"],
-    ["yt", "ig"],
-    ["pod", "web"],
-    ["fb", "email"],
-    ["ig", "anim"],
-    ["web", "anim"],
-    ["email", "anim"],
-    ["anim", "lives"],
-  ];
-  const byId = Object.fromEntries(nodes.map((n) => [n.id, n]));
-
-  const anchorOffset = (level: FlowNode["level"]) =>
-    ({ 0: 2.6, 1: 2.8, 2: 2.5, 3: 2.5, 4: 2.7, 5: 3.2 })[level];
-
-  const anchor = (node: FlowNode, side: "top" | "bottom") => {
-    const offset = anchorOffset(node.level);
-    return { x: node.x, y: side === "top" ? node.y - offset : node.y + offset };
-  };
-
-  const isSpineLink = (a: FlowNode, b: FlowNode) => Math.abs(a.x - b.x) < 0.5;
-
-  const spineLinks = links.filter(([a, b]) => isSpineLink(byId[a], byId[b]));
-  const branchLinks = links.filter(([a, b]) => !isSpineLink(byId[a], byId[b]));
-
-  const path = (a: FlowNode, b: FlowNode) => {
-    const start = anchor(a, "bottom");
-    const end = anchor(b, "top");
-    const dy = end.y - start.y;
-    const c1y = start.y + dy * 0.55;
-    const c2y = end.y - dy * 0.55;
-    return `M ${start.x} ${start.y} C ${start.x} ${c1y}, ${end.x} ${c2y}, ${end.x} ${end.y}`;
-  };
-
-  const renderBranchLinks = () =>
-    branchLinks.map(([a, b], i) => {
-      const A = byId[a];
-      const B = byId[b];
-      const d = path(A, B);
-      return (
-        <g key={`branch-${a}-${b}`}>
-          <path
-            d={d}
-            fill="none"
-            stroke="#C6A15B"
-            strokeWidth={2}
-            strokeLinecap="round"
-            opacity={0.35}
-            vectorEffect="non-scaling-stroke"
-          />
-          <path
-            d={d}
-            fill="none"
-            stroke="#C6A15B"
-            strokeWidth={2}
-            strokeLinecap="round"
-            filter="url(#flowGlow)"
-            opacity={0.95}
-            vectorEffect="non-scaling-stroke"
-            pathLength={1}
-            strokeDasharray="1 1"
-            strokeDashoffset="1"
-            style={{
-              animation: `flowDraw 1.6s ${0.3 + i * 0.12}s cubic-bezier(.4,.0,.2,1) forwards`,
-            }}
-          />
-          <circle r="1.5" fill="#C6A15B" opacity="0" vectorEffect="non-scaling-size">
-            <animateMotion dur="3.2s" begin={`${1.2 + i * 0.25}s`} repeatCount="indefinite" path={d} />
-            <animate attributeName="opacity" values="0;1;1;0" dur="3.2s" begin={`${1.2 + i * 0.25}s`} repeatCount="indefinite" />
-          </circle>
-        </g>
-      );
-    });
-
-  const renderSpineLinks = () =>
-    spineLinks.map(([a, b], i) => {
-      const A = byId[a];
-      const B = byId[b];
-      const start = anchor(A, "bottom");
-      const end = anchor(B, "top");
-      const height = end.y - start.y;
-      if (height <= 0) return null;
-      const midY = start.y + height / 2;
-
-      return (
-        <div key={`spine-${a}-${b}`} className="pointer-events-none">
-          <div
-            className="absolute z-[4] -translate-x-1/2 rounded-full bg-[#C6A15B]/30"
-            style={{ left: `${start.x}%`, top: `${start.y}%`, width: 2, height: `${height}%` }}
-          />
-          <div
-            className="absolute z-[4] origin-top rounded-full bg-[#C6A15B] shadow-[0_0_12px_rgba(198,161,91,0.85)] animate-[flowSpineGrow_1.2s_ease-out_forwards]"
-            style={{
-              left: `calc(${start.x}% - 1px)`,
-              top: `${start.y}%`,
-              width: 2,
-              height: `${height}%`,
-              animationDelay: `${0.2 + i * 0.1}s`,
-            }}
-          />
-          <div
-            className="absolute z-[4] h-1 w-1 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#C6A15B] shadow-[0_0_6px_rgba(198,161,91,0.8)]"
-            style={{ left: `${start.x}%`, top: `${midY}%` }}
-          />
-        </div>
-      );
-    });
 
   return (
-    <section className="section-y relative overflow-hidden bg-[color:var(--navy)] text-[color:var(--cream)]">
-      {/* atmospheric backdrop */}
-      <div className="pointer-events-none absolute inset-0 opacity-[0.12]"
-           style={{ backgroundImage: "radial-gradient(circle at 1px 1px, var(--cream) 1px, transparent 0)", backgroundSize: "28px 28px" }} />
-      <div className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 h-[520px] w-[820px] rounded-full blur-3xl opacity-30"
-           style={{ background: "radial-gradient(closest-side, var(--gold), transparent)" }} />
+    <section className="section-y relative overflow-hidden bg-[#2A1C14] text-[color:var(--cream)]">
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.16]"
+        style={{
+          backgroundImage: "radial-gradient(circle at 1px 1px, #C6A15B 1px, transparent 0)",
+          backgroundSize: "28px 28px",
+        }}
+      />
+      <div className="pointer-events-none absolute -top-24 left-1/2 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(198,161,91,0.18),transparent)]" />
 
       <div className="container-page relative">
         <Reveal>
@@ -294,88 +172,67 @@ function SermonFlow() {
             <h2 className="mt-5 font-serif text-4xl md:text-6xl leading-[1.05] text-[color:var(--cream)]">
               One Sermon. <em className="not-italic text-[color:var(--gold)]">Many Touchpoints.</em>
             </h2>
-            <p className="mt-6 text-[color:var(--cream)]/70 max-w-2xl leading-relaxed">
-              A single message becomes a week of touchpoints &mdash; across platforms, formats,
-              and audiences. Watch how one moment of teaching travels.
+            <p className="mt-6 text-[color:var(--cream)]/75 max-w-2xl leading-relaxed">
+              A single message becomes a week of touchpoints &mdash; across platforms, formats, and audiences.
             </p>
           </div>
         </Reveal>
 
-        <Reveal delay={150}>
-          <div className="mt-16 relative mx-auto aspect-[4/5] md:aspect-[16/11] max-w-5xl rounded-[2rem] overflow-hidden border border-[color:var(--cream)]/10 bg-gradient-to-b from-white/[0.04] to-white/[0.01] backdrop-blur-sm shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)]">
-            {/* Corner labels */}
-            <div className="absolute top-5 left-6 text-[10px] tracking-[0.2em] uppercase text-[color:var(--cream)]/45">Origin</div>
-            <div className="absolute bottom-5 right-6 text-[10px] tracking-[0.2em] uppercase text-[color:var(--gold)]">Impact</div>
-
-            <svg viewBox="0 0 100 100" className="absolute inset-0 z-[1] h-full w-full pointer-events-none" preserveAspectRatio="none">
-              <defs>
-                <filter id="flowGlow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur stdDeviation="1.2" result="b" />
-                  <feMerge>
-                    <feMergeNode in="b" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-              </defs>
-              {renderBranchLinks()}
-            </svg>
-
-            {nodes.map((n, i) => {
-              const isSource = n.level === 0;
-              const isImpact = n.level === 5;
-              const isHub = n.level === 1 || n.level === 4;
-              return (
-                <div
-                  key={n.id}
-                  className="absolute z-[2] -translate-x-1/2 -translate-y-1/2 group"
-                  style={{ left: `${n.x}%`, top: `${n.y}%`, animation: `float-up 0.7s ${0.1 + i * 0.1}s ease-out both` }}
-                >
-                  {/* halo */}
-                  {(isSource || isImpact) && (
-                    <span className={`absolute inset-0 -z-10 rounded-full blur-xl opacity-60 ${isSource ? "bg-[color:var(--cream)]/30" : "bg-[color:var(--gold)]/60"}`} />
-                  )}
+        <Reveal delay={120}>
+          <div className="mt-14 rounded-[2rem] border border-[color:var(--gold)]/25 bg-[#F3EBDD] p-6 md:p-10 shadow-[0_24px_60px_-30px_rgba(42,28,20,0.18)]">
+            <div className="flow-rail overflow-visible pb-2">
+              <div className="flow-rail__track min-w-0">
+              {cards.map((card) => (
+                <article key={card.step} className="flow-step group">
                   <div
-                    className={`flex items-center gap-2 rounded-full pl-1.5 pr-3 md:pl-2 md:pr-4 py-1 md:py-1.5 text-[10px] md:text-xs font-medium border backdrop-blur-md transition-all duration-300 hover:scale-[1.06] hover:-translate-y-0.5 cursor-default whitespace-nowrap ${
-                      isSource
-                        ? "bg-[color:var(--cream)] text-[color:var(--navy)] border-[color:var(--cream)] shadow-[0_8px_24px_-4px_rgba(0,0,0,0.5)]"
-                        : isImpact
-                        ? "bg-gradient-to-r from-[color:var(--gold)] to-[oklch(0.78_0.12_75)] text-[color:var(--navy)] border-[color:var(--gold)] shadow-[0_10px_30px_-6px_rgba(198,161,91,0.6)]"
-                        : isHub
-                        ? "bg-[color:var(--navy)] text-[color:var(--cream)] border-[color:var(--gold)]/60 shadow-[0_6px_20px_-4px_rgba(0,0,0,0.45)]"
-                        : "bg-white/8 text-[color:var(--cream)] border-[color:var(--cream)]/20 hover:border-[color:var(--gold)] hover:bg-white/12"
+                    className={`flow-step__badge ${
+                      card.variant === "origin"
+                        ? "flow-step__badge--origin"
+                        : card.variant === "impact"
+                        ? "flow-step__badge--impact"
+                        : ""
                     }`}
                   >
-                    <span className={`grid place-items-center h-5 w-5 md:h-6 md:w-6 rounded-full text-[10px] md:text-xs ${
-                      isSource
-                        ? "bg-[color:var(--navy)] text-[color:var(--gold)]"
-                        : isImpact
-                        ? "bg-[color:var(--navy)] text-[color:var(--gold)]"
-                        : isHub
-                        ? "bg-[color:var(--gold)] text-[color:var(--navy)]"
-                        : "bg-[color:var(--gold)]/15 text-[color:var(--gold)]"
-                    }`}>{n.icon}</span>
-                    <span>{n.label}</span>
+                    {card.step}
                   </div>
-                </div>
-              );
-            })}
-
-            {renderSpineLinks()}
+                  <div
+                    className={`flow-step__card ${
+                      card.variant === "origin"
+                        ? "flow-step__card--origin"
+                        : card.variant === "impact"
+                        ? "flow-step__card--impact"
+                        : ""
+                    }`}
+                  >
+                    <div className="flow-step__phase">{card.phase}</div>
+                    <h3 className="flow-step__title">{card.title}</h3>
+                    <div className="mt-4 space-y-2">
+                      {card.chips.map((chip) => (
+                        <div key={chip.label} className="flow-step__chip">
+                          <span className="flow-step__chip-icon">{chip.icon}</span>
+                          <span>{chip.label}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </article>
+              ))}
+              </div>
+            </div>
           </div>
         </Reveal>
 
-        {/* Stat strip */}
         <Reveal delay={250}>
-          <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-px rounded-2xl overflow-hidden border border-[color:var(--cream)]/10 bg-[color:var(--cream)]/10">
+          <div className="mt-12 grid grid-cols-4 gap-px overflow-hidden rounded-2xl border border-[color:var(--cream)]/10 bg-[color:var(--cream)]/10">
             {[
               { k: "1", v: "Enhanced video" },
               { k: "10", v: "Social posts" },
               { k: "20", v: "Shorts" },
               { k: "∞", v: "Audience reach" },
             ].map((s) => (
-              <div key={s.v} className="bg-[color:var(--navy)] px-6 py-7 text-center">
-                <div className="font-serif text-3xl md:text-4xl text-[color:var(--gold)]">{s.k}</div>
-                <div className="mt-1 text-xs tracking-wider uppercase text-[color:var(--cream)]/60">{s.v}</div>
+              <div key={s.v} className="bg-[#2A1C14] px-6 py-7 text-center">
+                <div className="font-serif text-3xl text-[color:var(--gold)] md:text-4xl">{s.k}</div>
+                <div className="mt-1 text-xs uppercase tracking-wider text-[color:var(--cream)]/60">{s.v}</div>
               </div>
             ))}
           </div>
@@ -387,15 +244,10 @@ function SermonFlow() {
 
 /* ---------- 4. PORTFOLIO ---------- */
 function Portfolio() {
-  const items = [
-    { img: workSermon, title: "Sermon Enhancement — Faith Community", tag: "Sermon Enhancement" },
-    { img: workAnimation, title: "Faith Based Animation Series", tag: "Faith Based Animation" },
-    { img: workPodcast, title: "Ministry Podcast Production", tag: "Podcast Content" },
-    { img: workSocial, title: "YouTube Shorts & Social Campaign", tag: "Social Media Content" },
-  ];
   return (
-    <section className="section-y bg-[color:var(--background)]">
-      <div className="container-page">
+    <section className="section-y relative overflow-hidden bg-[color:var(--background)]">
+      <FilmReelBackdrop panelTop={reelPanel1} panelBottom={reelPanel2} />
+      <div className="container-page relative z-[1]">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <Reveal>
             <div>
@@ -408,31 +260,10 @@ function Portfolio() {
           </Reveal>
         </div>
 
-        <div className="mt-16 grid gap-8 md:grid-cols-2">
-          {items.map((it, i) => (
-            <Reveal key={it.title} delay={i * 100}>
-              <a href="#" className="group block relative overflow-hidden rounded-2xl bg-black">
-                <div className="aspect-[16/10] overflow-hidden">
-                  <img
-                    src={it.img}
-                    alt={it.title}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-105"
-                  />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <div className="h-20 w-20 rounded-full bg-[color:var(--gold)] grid place-items-center shadow-2xl scale-90 group-hover:scale-100 transition-transform duration-500">
-                    <svg viewBox="0 0 24 24" className="h-8 w-8 fill-[color:oklch(0.15_0_0)] ml-1">
-                      <path d="M8 5v14l11-7L8 5z" />
-                    </svg>
-                  </div>
-                </div>
-                <div className="absolute bottom-0 left-0 right-0 p-8 text-[color:var(--cream)]">
-                  <div className="text-xs tracking-[0.2em] uppercase text-[color:var(--gold)]">{it.tag}</div>
-                  <div className="mt-2 font-serif text-2xl md:text-3xl">{it.title}</div>
-                </div>
-              </a>
+        <div className="mt-16 grid grid-cols-2 gap-10">
+          {productionVideos.map((item, i) => (
+            <Reveal key={item.title + i} delay={i * 100}>
+              <ProductionVideo item={item} />
             </Reveal>
           ))}
         </div>
@@ -485,20 +316,27 @@ function ProcessTimeline() {
   const progress = ((active + 1) / steps.length) * 100;
 
   return (
-    <section className="section-y bg-white">
-      <div className="container-page">
+    <section className="section-y relative overflow-hidden bg-[#2A1C14] text-[color:var(--cream)]">
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.12]"
+        style={{
+          backgroundImage: "radial-gradient(circle at 1px 1px, #C6A15B 1px, transparent 0)",
+          backgroundSize: "28px 28px",
+        }}
+      />
+      <div className="container-page relative">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div className="max-w-2xl">
-              <div className="eyebrow">How We Work</div>
-              <h2 className="mt-5 font-serif text-4xl md:text-6xl leading-[1.05]">
+              <div className="eyebrow text-[color:var(--gold)]">How We Work</div>
+              <h2 className="mt-5 font-serif text-4xl md:text-6xl leading-[1.05] text-[color:var(--cream)]">
                 A stewardship <em className="not-italic text-[color:var(--gold)]">mindset.</em>
               </h2>
             </div>
-            <div className="text-xs tracking-[0.2em] uppercase text-[color:var(--muted-foreground)]">
-              Step <span className="text-[color:var(--navy)] font-semibold">{String(active + 1).padStart(2, "0")}</span>
-              <span className="mx-2 text-[color:var(--border)]">/</span>
-              <span>{String(steps.length).padStart(2, "0")}</span>
+            <div className="text-xs tracking-[0.2em] uppercase text-[color:var(--cream)]/55">
+              Step <span className="text-[color:var(--gold)] font-semibold">{String(active + 1).padStart(2, "0")}</span>
+              <span className="mx-2 text-[color:var(--gold)]/35">/</span>
+              <span className="text-[color:var(--cream)]/55">{String(steps.length).padStart(2, "0")}</span>
             </div>
           </div>
         </Reveal>
@@ -507,7 +345,7 @@ function ProcessTimeline() {
         <Reveal delay={120}>
           <div className="mt-14 relative">
             {/* base rail */}
-            <div className="absolute left-0 right-0 top-5 h-px bg-[color:var(--border)]" />
+            <div className="absolute left-0 right-0 top-5 h-px bg-[color:var(--gold)]/20" />
             {/* progress rail */}
             <div
               className="absolute left-0 top-5 h-[2px] bg-gradient-to-r from-[color:var(--gold)] to-[oklch(0.78_0.12_75)] transition-all duration-700 ease-out"
@@ -530,7 +368,7 @@ function ProcessTimeline() {
                           ? "bg-[color:var(--navy)] border-[color:var(--gold)] scale-110 shadow-[0_8px_20px_-6px_rgba(31,53,86,0.45)]"
                           : isDone
                           ? "bg-[color:var(--gold)] border-[color:var(--gold)]"
-                          : "bg-white border-[color:var(--border)] group-hover:border-[color:var(--gold)]"
+                          : "bg-[#2A1C14] border-[color:var(--gold)]/30 group-hover:border-[color:var(--gold)]"
                       }`}
                     >
                       <span
@@ -538,8 +376,8 @@ function ProcessTimeline() {
                           isActive
                             ? "text-[color:var(--gold)]"
                             : isDone
-                            ? "text-[color:var(--navy)]"
-                            : "text-[color:var(--muted-foreground)] group-hover:text-[color:var(--navy)]"
+                            ? "text-[#2A1C14]"
+                            : "text-[color:var(--cream)]/45 group-hover:text-[color:var(--gold)]"
                         }`}
                       >
                         {String(i + 1).padStart(2, "0")}
@@ -547,14 +385,14 @@ function ProcessTimeline() {
                     </span>
                     <span
                       className={`mt-4 text-[11px] md:text-xs tracking-[0.14em] uppercase transition-colors ${
-                        isActive ? "text-[color:var(--navy)] font-semibold" : "text-[color:var(--muted-foreground)]"
+                        isActive ? "text-[color:var(--gold)] font-semibold" : "text-[color:var(--cream)]/45"
                       }`}
                     >
                       {s.phase}
                     </span>
                     <span
-                      className={`mt-1 hidden md:block font-serif text-sm leading-snug transition-colors ${
-                        isActive ? "text-[color:var(--navy)]" : "text-[color:var(--muted-foreground)] group-hover:text-[color:var(--navy)]"
+                      className={`mt-1 block font-serif text-sm leading-snug transition-colors ${
+                        isActive ? "text-[color:var(--cream)]" : "text-[color:var(--cream)]/45 group-hover:text-[color:var(--gold)]"
                       }`}
                     >
                       {s.t}
@@ -568,11 +406,11 @@ function ProcessTimeline() {
 
         {/* Active panel */}
         <Reveal delay={200}>
-          <div className="mt-16 grid gap-10 md:grid-cols-[1.1fr_1fr] items-stretch">
+          <div className="mt-16 grid grid-cols-[1.1fr_1fr] gap-10 items-stretch">
             {/* Story card */}
             <div
               key={`story-${active}`}
-              className="relative rounded-3xl bg-[color:var(--navy)] text-[color:var(--cream)] p-10 md:p-14 overflow-hidden shadow-[0_30px_80px_-30px_rgba(31,53,86,0.5)] animate-[float-up_0.5s_ease-out]"
+              className="relative rounded-3xl border border-[color:var(--gold)]/15 bg-[#352518] text-[color:var(--cream)] p-10 md:p-14 overflow-hidden shadow-[0_30px_80px_-30px_rgba(0,0,0,0.55)] animate-[float-up_0.5s_ease-out]"
             >
               <div
                 className="absolute -top-20 -right-20 h-72 w-72 rounded-full blur-3xl opacity-25"
@@ -590,7 +428,7 @@ function ProcessTimeline() {
                     </div>
                   </div>
                 </div>
-                <h3 className="mt-10 font-serif text-3xl md:text-5xl leading-[1.08]">{cur.t}</h3>
+                <h3 className="mt-10 font-serif text-3xl md:text-5xl leading-[1.08] text-[color:var(--gold)]">{cur.t}</h3>
                 <p className="mt-6 text-[color:var(--cream)]/75 leading-relaxed max-w-lg">{cur.d}</p>
               </div>
             </div>
@@ -659,7 +497,7 @@ function WhyUs() {
           </div>
         </Reveal>
 
-        <div className="mt-16 grid gap-10 md:grid-cols-4 md:gap-8">
+        <div className="mt-16 grid grid-cols-4 gap-8">
           {cols.map((c, i) => (
             <Reveal key={c.t} delay={i * 100}>
               <div className="text-center md:text-left">
@@ -679,7 +517,21 @@ function WhyUs() {
 
 /* ---------- 7. TESTIMONIALS ---------- */
 function Testimonials() {
-  const items = [
+  const videoItems = [
+    {
+      name: "David Salas",
+      church: "Director, Revelation Media",
+      poster: testimonialDavid,
+      videoSrc: "https://drive.google.com/file/d/1f6wzYMRVZlt4SMg2lmsuSgqY1k2nWfbR/view",
+    },
+    {
+      name: "Mosongo Osong",
+      church: "Founder, Catholic Brain",
+      poster: testimonialMosongo,
+      videoSrc: "https://drive.google.com/file/d/1xUjr0zmOTqlrBjdB5bwZHKlWs3g2MS6v/view",
+    },
+  ];
+  const quoteItems = [
     {
       quote:
         "We have worked with AVGC Studios for a year now on video editing, illustrations, and ILO development projects. They consistently deliver high-quality, polished, creative output while working with tight timelines and large volumes. Their quality control is solid, their communication is smooth, and they address review notes quickly. They\u2019re a reliable and valued partner!",
@@ -694,82 +546,53 @@ function Testimonials() {
       church: "Partner & Publishing Director, Shackleton Kids",
       img: testimonialEduardo,
     },
-    {
-      name: "David Salas",
-      church: "Director, Revelation Media",
-      img: testimonialDavid,
-      poster: testimonialDavid,
-      videoUrl: "https://drive.google.com/file/d/1f6wzYMRVZlt4SMg2lmsuSgqY1k2nWfbR/view",
-    },
-    {
-      name: "Mosongo Osong",
-      church: "Founder, Catholic Brain",
-      img: testimonialMosongo,
-      poster: testimonialMosongo,
-      videoUrl: "https://drive.google.com/file/d/1xUjr0zmOTqlrBjdB5bwZHKlWs3g2MS6v/view",
-    },
   ];
-  const [idx, setIdx] = useState(0);
-  const cur = items[idx];
+
   return (
     <section className="section-y bg-white">
       <div className="container-page">
         <Reveal>
           <div className="eyebrow">Testimonials</div>
         </Reveal>
-        <Reveal delay={100}>
-          <div className="mt-8 grid gap-12 md:grid-cols-[1fr_2fr] items-center">
-            <div className="flex md:flex-col items-center md:items-start gap-4">
-              <div className="h-44 w-44 md:h-72 md:w-72 shrink-0 overflow-hidden rounded-2xl bg-[color:var(--background)]">
-                <img
-                  src={cur.img}
-                  alt={cur.name}
-                  width={640}
-                  height={640}
-                  loading="lazy"
-                  className="h-full w-full object-cover"
-                />
-              </div>
-              <div className="md:mt-6">
-                <div className="font-serif text-xl text-[color:var(--navy)]">{cur.name}</div>
-                <div className="text-sm text-[color:var(--muted-foreground)]">{cur.church}</div>
-              </div>
-            </div>
-            <div>
-              {cur.videoUrl ? (
-                <div>
-                  <p className="font-serif text-3xl md:text-4xl leading-[1.15] text-[color:var(--navy)]">
-                    Hear from {cur.name.split(" ")[0]} about partnering with AVGC Studios.
-                  </p>
-                  <TestimonialVideo
-                    key={cur.videoUrl}
-                    videoUrl={cur.videoUrl}
-                    poster={"poster" in cur ? cur.poster : cur.img}
-                    name={cur.name}
-                  />
+
+        <div className="mt-10 grid grid-cols-2 gap-6">
+          {videoItems.map((item, i) => (
+            <Reveal key={item.name} delay={i * 100}>
+              <article className="flex h-full flex-col rounded-3xl border border-[color:var(--border)] bg-[color:var(--background)] p-5 md:p-6">
+                <TestimonialVideo videoSrc={item.videoSrc} poster={item.poster} name={item.name} />
+                <div className="mt-4">
+                  <div className="font-serif text-lg text-[color:var(--navy)]">{item.name}</div>
+                  <div className="text-xs text-[color:var(--muted-foreground)]">{item.church}</div>
                 </div>
-              ) : (
-                <div className="font-serif text-4xl md:text-5xl leading-[1.15] text-[color:var(--navy)]">
-                  <span className="text-[color:var(--gold)] mr-1">&ldquo;</span>
-                  {cur.quote}
-                  <span className="text-[color:var(--gold)] ml-1">&rdquo;</span>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+
+        <div className="mt-10 space-y-10">
+          {quoteItems.map((item, i) => (
+            <Reveal key={item.name} delay={250 + i * 100}>
+              <article className="rounded-3xl border border-[color:var(--border)] bg-white p-6 md:p-8">
+                <div className="grid grid-cols-[220px_1fr] gap-7 items-start">
+                  <div className="h-44 w-44 md:h-52 md:w-52 shrink-0 overflow-hidden rounded-2xl">
+                    <img src={item.img} alt={item.name} width={640} height={640} loading="lazy" className="h-full w-full object-cover" />
+                  </div>
+                  <div className="flex min-h-full flex-col">
+                    <p className="font-serif text-[1.35rem] md:text-[1.65rem] leading-[1.35] text-[color:var(--navy)]">
+                      <span className="text-[color:var(--gold)] mr-1">&ldquo;</span>
+                      {item.quote}
+                      <span className="text-[color:var(--gold)] ml-1">&rdquo;</span>
+                    </p>
+                    <div className="mt-8 md:mt-10 text-right">
+                      <div className="font-serif text-lg text-[color:var(--navy)]">{item.name}</div>
+                      <div className="mt-1 text-xs text-[color:var(--muted-foreground)]">{item.church}</div>
+                    </div>
+                  </div>
                 </div>
-              )}
-              <div className="mt-10 flex gap-3">
-                {items.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setIdx(i)}
-                    aria-label={`Testimonial ${i + 1}`}
-                    className={`h-1.5 rounded-full transition-all ${
-                      i === idx ? "bg-[color:var(--navy)] w-10" : "bg-[color:var(--border)] w-6"
-                    }`}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        </Reveal>
+              </article>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -786,7 +609,7 @@ function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
   return (
     <section className="section-y bg-[color:var(--background)]">
-      <div className="container-page grid gap-16 md:grid-cols-[1fr_2fr]">
+      <div className="container-page grid grid-cols-[1fr_2fr] gap-16">
         <Reveal>
           <div>
             <div className="eyebrow">Questions</div>
@@ -840,7 +663,7 @@ function FAQ() {
 /* ---------- 9. CTA ---------- */
 function CTA() {
   return (
-    <section className="bg-[color:var(--navy)] text-[color:var(--cream)]">
+    <section className="bg-[#2A1C14] text-[color:var(--cream)]">
       <div className="container-page section-y text-center">
         <Reveal>
           <div className="eyebrow text-[color:var(--gold)]">Begin Today</div>
