@@ -13,8 +13,11 @@ import { FilmReelBackdrop } from "@/components/FilmReelBackdrop";
 import { ProductionVideo } from "@/components/ProductionVideo";
 import { productionVideos } from "@/data/production-videos";
 import { TestimonialVideo } from "@/components/TestimonialVideo";
-import { ContactSection } from "@/components/ContactSection";
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
+
+const ContactSection = lazy(() =>
+  import("@/components/ContactSection").then((m) => ({ default: m.ContactSection }))
+);
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -43,7 +46,9 @@ function Home() {
       <PartnershipServices />
       <Testimonials />
       <FAQ />
-      <ContactSection />
+      <Suspense fallback={<div className="min-h-[40vh]" aria-hidden />}>
+        <ContactSection />
+      </Suspense>
       <SiteFooter />
     </div>
   );
@@ -58,29 +63,31 @@ function Hero() {
         alt="Pastor preaching with a camera operator filming in warm light"
         width={1920}
         height={1280}
+        fetchPriority="high"
+        decoding="async"
         className="absolute inset-0 h-full w-full object-cover animate-kenburns"
       />
       <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-black/85" />
       <div className="absolute inset-0 bg-[radial-gradient(80%_60%_at_50%_40%,transparent,rgba(0,0,0,0.55))]" />
 
-      <div className="relative container-page flex min-h-screen flex-col justify-end pt-32 pb-20 md:pb-28">
+      <div className="relative container-page flex min-h-screen flex-col justify-end pt-24 pb-16 sm:pt-28 sm:pb-20 md:pb-28">
         <div className="max-w-3xl">
-          <h1 className="font-serif text-[clamp(2.5rem,6vw,5.25rem)] leading-[1.04] tracking-tight text-[color:var(--cream)]">
+          <h1 className="font-serif text-[clamp(2rem,6vw,5.25rem)] leading-[1.04] tracking-tight text-[color:var(--cream)]">
             Amplify the Message. <em className="not-italic text-[color:var(--gold)]">Multiply the Impact.</em>
           </h1>
-          <p className="mt-6 max-w-2xl text-base md:text-lg leading-relaxed text-[color:var(--cream)]/85">
+          <p className="mt-5 md:mt-6 max-w-2xl text-sm sm:text-base md:text-lg leading-relaxed text-[color:var(--cream)]/85">
             The challenge isn&rsquo;t creating more content &mdash; it&rsquo;s maximizing the impact
             of the content already being created. We help ministries transform valuable teachings
             into engaging visual experiences that reach people wherever they are.
           </p>
-          <div className="mt-10 flex flex-wrap gap-4">
-            <a href="#productions" className="btn-gold">View Our Work</a>
-            <a href="#contact" className="btn-gold">Schedule a Conversation</a>
+          <div className="mt-8 md:mt-10 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
+            <a href="#productions" className="btn-gold w-full sm:w-auto">View Our Work</a>
+            <a href="#contact" className="btn-gold w-full sm:w-auto">Schedule a Conversation</a>
           </div>
-          <p className="mt-10 text-xs tracking-[0.18em] uppercase text-[color:var(--cream)]/55">
+          <p className="mt-8 md:mt-10 text-[10px] sm:text-xs tracking-[0.18em] uppercase text-[color:var(--cream)]/55">
             Most ministries already have valuable content
           </p>
-          <div className="mt-5 flex flex-wrap gap-x-10 gap-y-3 text-[color:var(--cream)]/65 font-serif text-lg italic">
+          <div className="mt-4 md:mt-5 flex flex-wrap gap-x-6 sm:gap-x-10 gap-y-2 sm:gap-y-3 text-[color:var(--cream)]/65 font-serif text-base sm:text-lg italic">
             <span>Sermons</span>
             <span>· Bible Studies</span>
             <span>· Podcasts</span>
@@ -96,11 +103,11 @@ function Hero() {
 /* ---------- STEWARDSHIP ---------- */
 function StewardshipSection() {
   const weeks = [
-    { phase: "Week 01", title: "Share Your Vision" },
-    { phase: "Week 02", title: "Receive Creative Strategy" },
-    { phase: "Week 03", title: "Production Begins" },
-    { phase: "Week 04", title: "Review & Feedback" },
-    { phase: "Ongoing", title: "Publish Everywhere" },
+    { phase: "Day 1", title: "Share Your Vision", num: "01" },
+    { phase: "Day 2", title: "Receive Creative Strategy", num: "02" },
+    { phase: "Day 3", title: "Production Begins", num: "03" },
+    { phase: "Day 6", title: "Review & Feedback", num: "06" },
+    { phase: "Day 7", title: "Publish Everywhere", num: "07" },
   ];
 
   const benefits = [
@@ -115,26 +122,26 @@ function StewardshipSection() {
       <div className="container-page relative">
         <Reveal>
           <div className="max-w-2xl">
-            <h2 className="font-serif text-4xl md:text-6xl leading-[1.05] text-[color:var(--navy)]">
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-6xl leading-[1.05] text-[color:var(--navy)]">
               A stewardship <em className="not-italic text-[color:var(--gold)]">mindset.</em>
             </h2>
           </div>
         </Reveal>
 
         <Reveal delay={120}>
-          <div className="mt-14 relative">
-            <div className="absolute left-0 right-0 top-5 h-px bg-[color:var(--gold)]/25" />
-            <div className="absolute left-0 top-5 h-[2px] w-full bg-gradient-to-r from-[color:var(--gold)] to-[oklch(0.78_0.12_75)]" />
-            <div className="grid grid-cols-5 gap-2">
-              {weeks.map((s, i) => (
+          <div className="mt-10 md:mt-14 relative overflow-x-auto scrollbar-none -mx-5 px-5 sm:mx-0 sm:px-0 sm:overflow-visible">
+            <div className="hidden sm:block absolute left-0 right-0 top-5 h-px bg-[color:var(--gold)]/25" />
+            <div className="hidden sm:block absolute left-0 top-5 h-[2px] w-full bg-gradient-to-r from-[color:var(--gold)] to-[oklch(0.78_0.12_75)]" />
+            <div className="grid grid-cols-5 gap-3 sm:gap-2 min-w-[520px] sm:min-w-0">
+              {weeks.map((s) => (
                 <div key={s.title} className="flex flex-col items-center text-center">
-                  <span className="relative z-10 grid h-10 w-10 place-items-center rounded-full border-2 border-[color:var(--gold)] bg-[color:var(--gold)] text-[#2A1C14] font-serif text-sm">
-                    {String(i + 1).padStart(2, "0")}
+                  <span className="relative z-10 grid h-9 w-9 sm:h-10 sm:w-10 place-items-center rounded-full border-2 border-[color:var(--gold)] bg-[color:var(--gold)] text-[#2A1C14] font-serif text-xs sm:text-sm">
+                    {s.num}
                   </span>
-                  <span className="mt-4 text-[11px] md:text-xs tracking-[0.14em] uppercase text-[color:var(--gold)] font-semibold">
+                  <span className="mt-3 sm:mt-4 text-[10px] sm:text-[11px] md:text-xs tracking-[0.12em] sm:tracking-[0.14em] uppercase text-[color:var(--gold)] font-semibold">
                     {s.phase}
                   </span>
-                  <span className="mt-1 block font-serif text-sm leading-snug text-[color:var(--navy)]">
+                  <span className="mt-1 block font-serif text-xs sm:text-sm leading-snug text-[color:var(--navy)]">
                     {s.title}
                   </span>
                 </div>
@@ -149,13 +156,13 @@ function StewardshipSection() {
           </div>
         </Reveal>
 
-        <div className="mt-12 grid grid-cols-4 gap-8">
+        <div className="mt-10 md:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-8">
           {benefits.map((c, i) => (
             <Reveal key={c.t} delay={250 + i * 80}>
-              <div className="text-center">
-                <div className="font-serif text-4xl text-[color:var(--gold)]">{c.icon}</div>
-                <h3 className="mt-5 font-serif text-2xl text-[color:var(--navy)]">{c.t}</h3>
-                <p className="mt-3 text-[color:var(--muted-foreground)] leading-relaxed">{c.d}</p>
+              <div className="text-center sm:text-left lg:text-center">
+                <div className="font-serif text-3xl sm:text-4xl text-[color:var(--gold)]">{c.icon}</div>
+                <h3 className="mt-4 md:mt-5 font-serif text-xl sm:text-2xl text-[color:var(--navy)]">{c.t}</h3>
+                <p className="mt-2 md:mt-3 text-sm sm:text-base text-[color:var(--muted-foreground)] leading-relaxed">{c.d}</p>
               </div>
             </Reveal>
           ))}
@@ -191,7 +198,7 @@ function SermonFlow() {
         <Reveal>
           <div className="max-w-3xl">
             <div className="eyebrow text-[color:var(--gold)]">One Message</div>
-            <h2 className="mt-5 font-serif text-4xl md:text-6xl leading-[1.05] text-[color:var(--cream)]">
+            <h2 className="mt-5 font-serif text-3xl sm:text-4xl md:text-6xl leading-[1.05] text-[color:var(--cream)]">
               One Sermon. <em className="not-italic text-[color:var(--gold)]">Many Touchpoints.</em>
             </h2>
             <p className="mt-6 text-[color:var(--cream)]/75 max-w-2xl leading-relaxed">
@@ -201,7 +208,7 @@ function SermonFlow() {
         </Reveal>
 
         <Reveal delay={120}>
-          <div className="mt-14 rounded-[2rem] border border-[color:var(--gold)]/25 bg-[#F3EBDD] p-6 md:p-10 shadow-[0_24px_60px_-30px_rgba(42,28,20,0.18)]">
+          <div className="mt-10 md:mt-14 rounded-2xl sm:rounded-[2rem] border border-[color:var(--gold)]/25 bg-[#F3EBDD] p-4 sm:p-6 md:p-10 shadow-[0_24px_60px_-30px_rgba(42,28,20,0.18)]">
             <div className="flow-rail overflow-visible pb-2">
               <div className="flow-rail__track min-w-0">
                 {cards.map((card) => (
@@ -245,16 +252,16 @@ function SermonFlow() {
         </Reveal>
 
         <Reveal delay={250}>
-          <div className="mt-12 grid grid-cols-4 gap-px overflow-hidden rounded-2xl border border-[color:var(--cream)]/10 bg-[color:var(--cream)]/10">
+          <div className="mt-8 md:mt-12 grid grid-cols-2 md:grid-cols-4 gap-px overflow-hidden rounded-xl sm:rounded-2xl border border-[color:var(--cream)]/10 bg-[color:var(--cream)]/10">
             {[
               { k: "1", v: "Enhanced video" },
               { k: "10", v: "Social posts" },
               { k: "20", v: "Shorts" },
               { k: "∞", v: "Audience reach" },
             ].map((s) => (
-              <div key={s.v} className="bg-[#2A1C14] px-6 py-7 text-center">
-                <div className="font-serif text-3xl text-[color:var(--gold)] md:text-4xl">{s.k}</div>
-                <div className="mt-1 text-xs uppercase tracking-wider text-[color:var(--cream)]/60">{s.v}</div>
+              <div key={s.v} className="bg-[#2A1C14] px-3 py-5 sm:px-6 sm:py-7 text-center">
+                <div className="font-serif text-2xl sm:text-3xl text-[color:var(--gold)] md:text-4xl">{s.k}</div>
+                <div className="mt-1 text-[10px] sm:text-xs uppercase tracking-wider text-[color:var(--cream)]/60">{s.v}</div>
               </div>
             ))}
           </div>
@@ -273,11 +280,11 @@ function Portfolio() {
         <Reveal>
           <div className="text-center">
             <div className="eyebrow">Recent Work</div>
-            <h2 className="mt-5 font-serif text-4xl md:text-6xl leading-[1.05]">Selected Productions</h2>
+            <h2 className="mt-5 font-serif text-3xl sm:text-4xl md:text-6xl leading-[1.05]">Selected Productions</h2>
           </div>
         </Reveal>
 
-        <div className="mx-auto mt-16 grid max-w-5xl grid-cols-2 gap-10">
+        <div className="mx-auto mt-10 md:mt-16 grid max-w-5xl grid-cols-1 sm:grid-cols-2 gap-6 md:gap-10">
           {productionVideos.map((item, i) => (
             <Reveal key={item.title + i} delay={i * 100}>
               <ProductionVideo item={item} showMeta={false} />
@@ -330,10 +337,10 @@ function PartnershipServices() {
         <Reveal>
           <div className="max-w-3xl">
             <div className="eyebrow">Services</div>
-            <h2 className="mt-5 font-serif text-4xl md:text-6xl leading-[1.05]">
+            <h2 className="mt-5 font-serif text-3xl sm:text-4xl md:text-6xl leading-[1.05]">
               Ways We Can <span className="text-[color:var(--gold)]">Partner.</span>
             </h2>
-            <p className="mt-6 text-[color:var(--muted-foreground)] leading-relaxed max-w-2xl">
+            <p className="mt-5 md:mt-6 text-sm sm:text-base text-[color:var(--muted-foreground)] leading-relaxed max-w-2xl">
               Our production model enables ministries to access high-quality visual storytelling,
               animation, content repurposing, and media production at a fraction of the cost
               typically associated with similar services in North America and Europe.
@@ -341,10 +348,10 @@ function PartnershipServices() {
           </div>
         </Reveal>
 
-        <div className="mt-16 grid grid-cols-3 items-stretch gap-8">
+        <div className="mt-10 md:mt-16 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-stretch gap-6 md:gap-8">
           {tiers.map((tier, i) => (
             <Reveal key={tier.title} delay={i * 100}>
-              <article className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-[color:var(--border)] bg-[color:var(--background)] p-8 md:p-10 transition-[border-color] duration-300 hover:border-[color:var(--gold)]/45">
+              <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl sm:rounded-3xl border border-[color:var(--border)] bg-[color:var(--background)] p-6 sm:p-8 md:p-10 transition-[border-color] duration-300 hover:border-[color:var(--gold)]/45">
                 <div
                   className="absolute inset-0 bg-[#2A1C14] translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] group-hover:translate-y-0"
                   aria-hidden
@@ -353,10 +360,10 @@ function PartnershipServices() {
                   <div className="eyebrow transition-colors duration-300 group-hover:text-[color:var(--gold)]">
                     {tier.eyebrow}
                   </div>
-                  <h3 className="mt-4 font-serif text-3xl text-[color:var(--navy)] transition-colors duration-300 group-hover:text-[color:var(--cream)]">
+                  <h3 className="mt-4 font-serif text-2xl sm:text-3xl text-[color:var(--navy)] transition-colors duration-300 group-hover:text-[color:var(--cream)]">
                     {tier.title}
                   </h3>
-                  <p className="mt-4 font-serif italic text-lg text-[color:var(--muted-foreground)] leading-relaxed transition-colors duration-300 group-hover:text-[color:var(--cream)]/80">
+                  <p className="mt-4 font-serif italic text-base sm:text-lg text-[color:var(--muted-foreground)] leading-relaxed transition-colors duration-300 group-hover:text-[color:var(--cream)]/80">
                     {tier.sub}
                   </p>
                   <div className="mt-8">
@@ -379,7 +386,7 @@ function PartnershipServices() {
                 <div className="relative z-10 mt-auto min-h-[2.5rem] pt-8">
                   <a
                     href="#contact"
-                    className="inline-flex items-center whitespace-nowrap text-lg font-semibold leading-none text-[color:var(--navy)] opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:text-[color:var(--gold)]"
+                    className="inline-flex items-center whitespace-nowrap text-base sm:text-lg font-semibold leading-none text-[color:var(--gold)] opacity-100 transition-all duration-300 lg:opacity-0 lg:group-hover:opacity-100 lg:group-hover:text-[color:var(--gold)]"
                   >
                     Let&rsquo;s start <span className="ml-2">→</span>
                   </a>
@@ -433,10 +440,10 @@ function Testimonials() {
           <div className="eyebrow">Testimonials</div>
         </Reveal>
 
-        <div className="mt-10 grid grid-cols-2 gap-6">
+        <div className="mt-8 md:mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
           {videoItems.map((item, i) => (
             <Reveal key={item.name} delay={i * 100}>
-              <article className="flex h-full flex-col rounded-3xl border border-[color:var(--border)] bg-[color:var(--background)] p-5 md:p-6">
+              <article className="flex h-full flex-col rounded-2xl sm:rounded-3xl border border-[color:var(--border)] bg-[color:var(--background)] p-4 sm:p-5 md:p-6">
                 <TestimonialVideo videoSrc={item.videoSrc} poster={item.poster} name={item.name} />
                 <div className="mt-4">
                   <div className="font-serif text-lg text-[color:var(--navy)]">{item.name}</div>
@@ -447,16 +454,16 @@ function Testimonials() {
           ))}
         </div>
 
-        <div className="mt-10 space-y-10">
+        <div className="mt-8 md:mt-10 space-y-6 md:space-y-10">
           {quoteItems.map((item, i) => (
             <Reveal key={item.name} delay={250 + i * 100}>
-              <article className="rounded-3xl border border-[color:var(--border)] bg-white p-6 md:p-8">
-                <div className="grid grid-cols-[220px_1fr] gap-7 items-start">
-                  <div className="h-44 w-44 md:h-52 md:w-52 shrink-0 overflow-hidden rounded-2xl">
+              <article className="rounded-2xl sm:rounded-3xl border border-[color:var(--border)] bg-white p-5 sm:p-6 md:p-8">
+                <div className="flex flex-col md:grid md:grid-cols-[minmax(0,220px)_1fr] gap-5 md:gap-7 items-start">
+                  <div className="mx-auto md:mx-0 h-36 w-36 sm:h-44 sm:w-44 md:h-52 md:w-52 shrink-0 overflow-hidden rounded-2xl">
                     <img src={item.img} alt={item.name} width={640} height={640} loading="lazy" className="h-full w-full object-cover" />
                   </div>
                   <div className="flex min-h-full flex-col">
-                    <p className="font-serif text-[1.35rem] md:text-[1.65rem] leading-[1.35] text-[color:var(--navy)]">
+                    <p className="font-serif text-lg sm:text-[1.35rem] md:text-[1.65rem] leading-[1.35] text-[color:var(--navy)]">
                       <span className="text-[color:var(--gold)] mr-1">&ldquo;</span>
                       {item.quote}
                       <span className="text-[color:var(--gold)] ml-1">&rdquo;</span>
@@ -487,10 +494,10 @@ function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
   return (
     <section id="faq" className="section-y bg-[color:var(--background)]">
-      <div className="container-page grid grid-cols-[1fr_2fr] gap-16">
+      <div className="container-page grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-8 lg:gap-16">
         <Reveal>
           <div>
-            <h2 className="font-serif text-4xl md:text-5xl leading-[1.05]">Frequently Asked Questions</h2>
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl leading-[1.05]">Frequently Asked Questions</h2>
             <p className="mt-6 text-[color:var(--muted-foreground)] max-w-sm">
               Still curious? We&rsquo;d love to talk through your ministry&rsquo;s specific needs.
             </p>
@@ -504,9 +511,9 @@ function FAQ() {
                 <li key={it.q}>
                   <button
                     onClick={() => setOpen(isOpen ? null : i)}
-                    className="w-full flex items-center justify-between gap-6 py-7 text-left"
+                    className="w-full flex items-center justify-between gap-4 sm:gap-6 py-5 sm:py-7 text-left"
                   >
-                    <span className="font-serif text-xl md:text-2xl text-[color:var(--navy)]">
+                    <span className="font-serif text-lg sm:text-xl md:text-2xl text-[color:var(--navy)]">
                       {it.q}
                     </span>
                     <span
@@ -522,7 +529,7 @@ function FAQ() {
                     style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
                   >
                     <div className="overflow-hidden">
-                      <p className="pb-7 pr-12 text-[color:var(--muted-foreground)] leading-relaxed">
+                      <p className="pb-5 sm:pb-7 pr-4 sm:pr-12 text-sm sm:text-base text-[color:var(--muted-foreground)] leading-relaxed">
                         {it.a}
                       </p>
                     </div>

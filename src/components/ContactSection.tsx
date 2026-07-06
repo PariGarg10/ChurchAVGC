@@ -60,14 +60,14 @@ export function ContactSection() {
 
   return (
     <>
-      <section id="contact" className="pt-40 pb-16 bg-[#2A1C14] text-[color:var(--cream)]">
+      <section id="contact" className="pt-28 sm:pt-32 md:pt-40 pb-12 sm:pb-16 bg-[#2A1C14] text-[color:var(--cream)]">
         <div className="container-page max-w-4xl">
           <Reveal>
             <div className="eyebrow text-[color:var(--gold)]">Contact</div>
-            <h2 className="mt-6 font-serif text-5xl md:text-7xl leading-[1.04] text-[color:var(--cream)]">
+            <h2 className="mt-5 sm:mt-6 font-serif text-4xl sm:text-5xl md:text-7xl leading-[1.04] text-[color:var(--cream)]">
               Let&rsquo;s partner on <span className="text-[color:var(--gold)]">your mission.</span>
             </h2>
-            <p className="mt-8 text-lg text-[color:var(--cream)]/75 max-w-2xl leading-relaxed">
+            <p className="mt-6 sm:mt-8 text-base sm:text-lg text-[color:var(--cream)]/75 max-w-2xl leading-relaxed">
               We view ourselves not merely as a production vendor, but as a ministry partner.
               Tell us about your content — we&rsquo;ll listen first.
             </p>
@@ -76,10 +76,10 @@ export function ContactSection() {
       </section>
 
       <section className="section-y bg-white">
-        <div className="container-page grid grid-cols-[1fr_1.1fr] gap-16">
+        <div className="container-page grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-10 lg:gap-16">
           <Reveal>
             <div>
-              <h3 className="font-serif text-3xl md:text-4xl text-[color:var(--navy)]">Get in touch</h3>
+              <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl text-[color:var(--navy)]">Get in touch</h3>
               <p className="mt-4 text-[color:var(--muted-foreground)] leading-relaxed">
                 Reach us in whatever way is easiest. We answer every message personally,
                 usually within one business day.
@@ -89,14 +89,14 @@ export function ContactSection() {
                   <div className="eyebrow">Email</div>
                   <a
                     href={`mailto:${CONTACT_EMAIL}`}
-                    className="mt-2 block font-serif text-2xl text-[color:var(--navy)] hover:text-[color:var(--gold)] transition-colors"
+                    className="mt-2 block font-serif text-xl sm:text-2xl text-[color:var(--navy)] hover:text-[color:var(--gold)] transition-colors break-all"
                   >
                     {CONTACT_EMAIL}
                   </a>
                 </li>
                 <li className="border-b border-[color:var(--border)] pb-6">
                   <div className="eyebrow">Office</div>
-                  <div className="mt-2 font-serif text-2xl text-[color:var(--navy)]">Mon–Sat, 9:30am–6:30pm IST</div>
+                  <div className="mt-2 font-serif text-xl sm:text-2xl text-[color:var(--navy)]">Mon–Sat, 9:30am–6:30pm IST</div>
                 </li>
               </ul>
               <a href="#schedule" className="btn-primary mt-10">
@@ -143,7 +143,7 @@ export function ContactSection() {
           <Reveal>
             <div className="text-center max-w-2xl mx-auto">
               <div className="eyebrow">Meeting Scheduler</div>
-              <h3 className="mt-5 font-serif text-4xl md:text-5xl leading-[1.05]">
+              <h3 className="mt-5 font-serif text-3xl sm:text-4xl md:text-5xl leading-[1.05]">
                 Pick a time that works for you.
               </h3>
               <p className="mt-6 text-[color:var(--muted-foreground)]">
@@ -152,8 +152,8 @@ export function ContactSection() {
             </div>
           </Reveal>
           <Reveal delay={120}>
-            <div className="mt-12 card-elev max-w-3xl mx-auto text-center">
-              <div className="mb-6 flex items-center justify-between gap-4">
+            <div className="mt-8 md:mt-12 card-elev max-w-3xl mx-auto text-center">
+              <div className="mb-6 flex items-center justify-between gap-3 sm:gap-4">
                 <button
                   type="button"
                   onClick={() =>
@@ -164,7 +164,7 @@ export function ContactSection() {
                 >
                   ←
                 </button>
-                <div className="font-serif text-xl text-[color:var(--navy)]">{monthLabel}</div>
+                <div className="font-serif text-lg sm:text-xl text-[color:var(--navy)]">{monthLabel}</div>
                 <button
                   type="button"
                   onClick={() =>
@@ -204,7 +204,7 @@ export function ContactSection() {
                   );
                 })}
               </div>
-              <div className="mt-8 grid grid-cols-4 gap-3">
+              <div className="mt-6 sm:mt-8 grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
                 {timeSlots.map((t) => {
                   const isSelected = selectedTime === t;
                   return (

@@ -133,8 +133,8 @@ function VideoFrame({
   return (
     <div className={`relative w-full overflow-hidden ${large ? "aspect-[21/9]" : "aspect-video"} bg-[#2A1C14]`}>
       {title ? (
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-20 bg-gradient-to-b from-black/75 via-black/35 to-transparent px-5 py-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-          <span className="font-serif text-lg text-white">{title}</span>
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-20 bg-gradient-to-b from-black/75 via-black/35 to-transparent px-4 py-3 sm:px-5 sm:py-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+          <span className="font-serif text-base sm:text-lg text-white">{title}</span>
         </div>
       ) : null}
       {poster ? (
@@ -162,8 +162,8 @@ function VideoFrame({
         <>
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="grid h-20 w-20 place-items-center rounded-full bg-[color:var(--gold)] shadow-2xl transition-transform group-hover:scale-105">
-              <svg viewBox="0 0 24 24" className="ml-1 h-8 w-8 fill-[color:oklch(0.15_0_0)]" aria-hidden>
+            <span className="grid h-14 w-14 sm:h-16 sm:w-16 md:h-20 md:w-20 place-items-center rounded-full bg-[color:var(--gold)] shadow-2xl transition-transform group-hover:scale-105">
+              <svg viewBox="0 0 24 24" className="ml-1 h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 fill-[color:oklch(0.15_0_0)]" aria-hidden>
                 <path d="M8 5v14l11-7L8 5z" />
               </svg>
             </span>
@@ -172,8 +172,8 @@ function VideoFrame({
       ) : null}
       {showPlay && !poster ? (
         <div className="absolute inset-0 flex items-center justify-center bg-black/25">
-          <span className="grid h-20 w-20 place-items-center rounded-full bg-[color:var(--gold)] shadow-2xl">
-            <svg viewBox="0 0 24 24" className="ml-1 h-8 w-8 fill-[color:oklch(0.15_0_0)]" aria-hidden>
+          <span className="grid h-14 w-14 sm:h-16 sm:w-16 md:h-20 md:w-20 place-items-center rounded-full bg-[color:var(--gold)] shadow-2xl">
+            <svg viewBox="0 0 24 24" className="ml-1 h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 fill-[color:oklch(0.15_0_0)]" aria-hidden>
               <path d="M8 5v14l11-7L8 5z" />
             </svg>
           </span>

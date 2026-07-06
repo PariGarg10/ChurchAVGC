@@ -29,10 +29,10 @@ export function SiteHeader({ transparent = false }: { transparent?: boolean }) {
           : "bg-transparent"
       }`}
     >
-      <div className="container-page flex h-20 items-center justify-between gap-6">
-        <a href="#home" className="flex items-center gap-2 group">
+      <div className="container-page flex h-16 sm:h-20 items-center justify-between gap-4 sm:gap-6">
+        <a href="#home" className="flex items-center gap-2 group shrink-0">
           <span
-            className={`font-serif text-xl tracking-tight ${
+            className={`font-serif text-lg sm:text-xl tracking-tight ${
               solid ? "text-[color:var(--navy)]" : "text-[color:var(--cream)]"
             }`}
           >
@@ -40,7 +40,7 @@ export function SiteHeader({ transparent = false }: { transparent?: boolean }) {
           </span>
         </a>
 
-        <nav className="hidden lg:flex items-center gap-9">
+        <nav className="hidden lg:flex items-center gap-6 xl:gap-9">
           {nav.map((item) => (
             <a
               key={item.href}
@@ -56,16 +56,18 @@ export function SiteHeader({ transparent = false }: { transparent?: boolean }) {
           ))}
         </nav>
 
-        <div className="hidden lg:flex items-center">
-          <a href="#contact" className="btn-primary" style={{ height: 44, padding: "0 1.25rem" }}>
-            Schedule a Conversation
+        <div className="hidden lg:flex items-center shrink-0">
+          <a href="#contact" className="btn-primary !text-sm xl:!text-[0.95rem]" style={{ minHeight: 44, height: 44, padding: "0 1rem" }}>
+            <span className="hidden xl:inline">Schedule a Conversation</span>
+            <span className="xl:hidden">Schedule</span>
           </a>
         </div>
 
         <button
           onClick={() => setOpen((s) => !s)}
-          className="lg:hidden p-2"
-          aria-label="Open menu"
+          className="lg:hidden p-2 -mr-2"
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
         >
           <div className={`w-6 h-px mb-1.5 ${solid ? "bg-[color:var(--ink)]" : "bg-[color:var(--cream)]"}`} />
           <div className={`w-6 h-px mb-1.5 ${solid ? "bg-[color:var(--ink)]" : "bg-[color:var(--cream)]"}`} />
