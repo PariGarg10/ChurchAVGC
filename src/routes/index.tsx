@@ -332,15 +332,24 @@ function PartnershipServices() {
   ];
 
   return (
-    <section id="services" className="section-y bg-white">
-      <div className="container-page">
+    <section id="services" className="section-y relative overflow-hidden bg-[#2A1C14] text-[color:var(--cream)]">
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.16]"
+        style={{
+          backgroundImage: "radial-gradient(circle at 1px 1px, #C6A15B 1px, transparent 0)",
+          backgroundSize: "28px 28px",
+        }}
+      />
+      <div className="pointer-events-none absolute -top-24 left-1/2 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(198,161,91,0.18),transparent)]" />
+
+      <div className="container-page relative">
         <Reveal>
           <div className="max-w-3xl">
-            <div className="eyebrow">Services</div>
-            <h2 className="mt-5 font-serif text-3xl sm:text-4xl md:text-6xl leading-[1.05]">
+            <div className="eyebrow text-[color:var(--gold)]">Services</div>
+            <h2 className="mt-5 font-serif text-3xl sm:text-4xl md:text-6xl leading-[1.05] text-[color:var(--cream)]">
               Ways We Can <span className="text-[color:var(--gold)]">Partner.</span>
             </h2>
-            <p className="mt-5 md:mt-6 text-sm sm:text-base text-[color:var(--muted-foreground)] leading-relaxed max-w-2xl">
+            <p className="mt-5 md:mt-6 text-sm sm:text-base text-[color:var(--cream)]/75 leading-relaxed max-w-2xl">
               Our production model enables ministries to access high-quality visual storytelling,
               animation, content repurposing, and media production at a fraction of the cost
               typically associated with similar services in North America and Europe.
@@ -351,7 +360,7 @@ function PartnershipServices() {
         <div className="mt-10 md:mt-16 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-stretch gap-6 md:gap-8">
           {tiers.map((tier, i) => (
             <Reveal key={tier.title} delay={i * 100}>
-              <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl sm:rounded-3xl border border-[color:var(--border)] bg-[color:var(--background)] p-6 sm:p-8 md:p-10 transition-[border-color] duration-300 hover:border-[color:var(--gold)]/45">
+              <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl sm:rounded-3xl border border-[color:var(--gold)]/25 bg-[color:var(--background)] p-6 sm:p-8 md:p-10 transition-[border-color] duration-300 hover:border-[color:var(--gold)]/45">
                 <div
                   className="absolute inset-0 bg-[#2A1C14] translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] group-hover:translate-y-0"
                   aria-hidden
