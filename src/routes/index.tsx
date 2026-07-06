@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import heroImg from "@/assets/hero-worship.jpg";
 import reelPanel1 from "@/assets/work-reel-panel-1.png";
 import reelPanel2 from "@/assets/work-reel-panel-2.png";
@@ -13,6 +13,7 @@ import { FilmReelBackdrop } from "@/components/FilmReelBackdrop";
 import { ProductionVideo } from "@/components/ProductionVideo";
 import { productionVideos } from "@/data/production-videos";
 import { TestimonialVideo } from "@/components/TestimonialVideo";
+import { ContactSection } from "@/components/ContactSection";
 import { useState } from "react";
 
 export const Route = createFileRoute("/")({
@@ -36,23 +37,22 @@ function Home() {
     <div className="bg-[color:var(--background)]">
       <SiteHeader transparent />
       <Hero />
-      <ServicesOverview />
+      <StewardshipSection />
       <SermonFlow />
       <Portfolio />
-      <ProcessTimeline />
-      <WhyUs />
+      <PartnershipServices />
       <Testimonials />
       <FAQ />
-      <CTA />
+      <ContactSection />
       <SiteFooter />
     </div>
   );
 }
 
-/* ---------- 1. HERO ---------- */
+/* ---------- HERO ---------- */
 function Hero() {
   return (
-    <section className="relative min-h-screen w-full overflow-hidden text-[color:var(--cream)]">
+    <section id="home" className="relative min-h-screen w-full overflow-hidden text-[color:var(--cream)]">
       <img
         src={heroImg}
         alt="Pastor preaching with a camera operator filming in warm light"
@@ -74,8 +74,8 @@ function Hero() {
             into engaging visual experiences that reach people wherever they are.
           </p>
           <div className="mt-10 flex flex-wrap gap-4">
-            <Link to="/work" className="btn-gold">View Our Work</Link>
-            <Link to="/contact" className="btn-gold">Schedule a Conversation</Link>
+            <a href="#productions" className="btn-gold">View Our Work</a>
+            <a href="#contact" className="btn-gold">Schedule a Conversation</a>
           </div>
           <p className="mt-10 text-xs tracking-[0.18em] uppercase text-[color:var(--cream)]/55">
             Most ministries already have valuable content
@@ -93,47 +93,70 @@ function Hero() {
   );
 }
 
-/* ---------- 2. SERVICES ---------- */
-function ServicesOverview() {
-  const items = [
-    { title: "Sermons", body: "Add visuals, maps, scripture references and contextual imagery." },
-    { title: "Bible Studies", body: "Historical context, character illustrations and educational graphics." },
-    { title: "Testimonies & Faith Stories", body: "Bring personal stories to life through visual storytelling." },
-    { title: "Mission & Ministry Updates", body: "Help supporters see impact through visuals rather than simply describing it." },
-    { title: "Children's Ministry", body: "Create engaging content for younger audiences." },
-    { title: "Leadership & Discipleship Training", body: "Make educational content easier to understand and retain." },
+/* ---------- STEWARDSHIP ---------- */
+function StewardshipSection() {
+  const weeks = [
+    { phase: "Week 01", title: "Share Your Vision" },
+    { phase: "Week 02", title: "Receive Creative Strategy" },
+    { phase: "Week 03", title: "Production Begins" },
+    { phase: "Week 04", title: "Review & Feedback" },
+    { phase: "Ongoing", title: "Publish Everywhere" },
   ];
+
+  const benefits = [
+    { icon: "✦", t: "Extend Reach", d: "Help faithful messages travel farther and reach people wherever they are." },
+    { icon: "❋", t: "Repurpose Content", d: "Maximize existing content within your current budget — rather than spending more." },
+    { icon: "✺", t: "Engage Younger Audiences", d: "Visual storytelling in formats today\u2019s audiences naturally engage with." },
+    { icon: "✿", t: "Preserve Bandwidth", d: "We become an extension of your ministry team, freeing staff to focus on shepherding." },
+  ];
+
   return (
-    <section className="section-y bg-[color:var(--background)]">
-      <div className="container-page">
+    <section id="stewardship" className="section-y relative overflow-hidden bg-[color:var(--background)]">
+      <div className="container-page relative">
         <Reveal>
-          <div className="max-w-3xl">
-            <div className="eyebrow">Content We Support</div>
-            <h2 className="mt-5 font-serif text-4xl md:text-6xl leading-[1.05]">
-              Valuable content
-              <br />
-              <span className="text-[color:var(--gold)]">you already have.</span>
+          <div className="max-w-2xl">
+            <h2 className="font-serif text-4xl md:text-6xl leading-[1.05] text-[color:var(--navy)]">
+              A stewardship <em className="not-italic text-[color:var(--gold)]">mindset.</em>
             </h2>
           </div>
         </Reveal>
 
-        <div className="mt-16 grid grid-cols-2 gap-px bg-[color:var(--border)] rounded-2xl overflow-hidden border border-[color:var(--border)]">
-          {items.map((it, i) => (
-            <Reveal key={it.title} delay={i * 90}>
-              <article className="bg-[color:var(--background)] p-10 md:p-14 h-full group transition-colors hover:bg-white">
-                <div className="text-xs font-semibold tracking-[0.2em] text-[color:var(--gold)]">
-                  0{i + 1}
+        <Reveal delay={120}>
+          <div className="mt-14 relative">
+            <div className="absolute left-0 right-0 top-5 h-px bg-[color:var(--gold)]/25" />
+            <div className="absolute left-0 top-5 h-[2px] w-full bg-gradient-to-r from-[color:var(--gold)] to-[oklch(0.78_0.12_75)]" />
+            <div className="grid grid-cols-5 gap-2">
+              {weeks.map((s, i) => (
+                <div key={s.title} className="flex flex-col items-center text-center">
+                  <span className="relative z-10 grid h-10 w-10 place-items-center rounded-full border-2 border-[color:var(--gold)] bg-[color:var(--gold)] text-[#2A1C14] font-serif text-sm">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="mt-4 text-[11px] md:text-xs tracking-[0.14em] uppercase text-[color:var(--gold)] font-semibold">
+                    {s.phase}
+                  </span>
+                  <span className="mt-1 block font-serif text-sm leading-snug text-[color:var(--navy)]">
+                    {s.title}
+                  </span>
                 </div>
-                <h3 className="mt-5 font-serif text-2xl md:text-3xl text-[color:var(--navy)]">
-                  {it.title}
-                </h3>
-                <p className="mt-4 max-w-md text-[color:var(--muted-foreground)] leading-relaxed">
-                  {it.body}
-                </p>
-                <Link to="/services" className="mt-8 inline-flex items-center text-sm font-semibold text-[color:var(--navy)] group-hover:text-[color:var(--gold)] transition-colors">
-                  Learn more <span className="ml-2 transition-transform group-hover:translate-x-1">→</span>
-                </Link>
-              </article>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal delay={200}>
+          <div className="mt-16 text-center max-w-3xl mx-auto">
+            <div className="eyebrow">Why Ministries Can Do More With AVGC Studios</div>
+          </div>
+        </Reveal>
+
+        <div className="mt-12 grid grid-cols-4 gap-8">
+          {benefits.map((c, i) => (
+            <Reveal key={c.t} delay={250 + i * 80}>
+              <div className="text-center">
+                <div className="font-serif text-4xl text-[color:var(--gold)]">{c.icon}</div>
+                <h3 className="mt-5 font-serif text-2xl text-[color:var(--navy)]">{c.t}</h3>
+                <p className="mt-3 text-[color:var(--muted-foreground)] leading-relaxed">{c.d}</p>
+              </div>
             </Reveal>
           ))}
         </div>
@@ -142,19 +165,19 @@ function ServicesOverview() {
   );
 }
 
-/* ---------- 3. SERMON FLOW CARDS ---------- */
+/* ---------- SERMON FLOW ---------- */
 function SermonFlow() {
   const cards = [
     { step: "1", phase: "Origin", title: "One Sunday", chips: [{ label: "Sunday Sermon", icon: "✦" }], variant: "origin" as const },
     { step: "2", phase: "Craft", title: "Shaped with care", chips: [{ label: "Professional Editing", icon: "✎" }] },
     { step: "3", phase: "Long-form", title: "Where people watch & listen", chips: [{ label: "YouTube", icon: "▶" }, { label: "Podcast", icon: "♪" }, { label: "Facebook", icon: "f" }] },
-    { step: "4", phase: "Short-form", title: "Where people scroll", chips: [{ label: "Instagram", icon: "◐" }, { label: "Website", icon: "◉" }, { label: "Email", icon: "✉" }] },
+    { step: "4", phase: "Short-form", title: "Where people scroll", chips: [{ label: "Instagram", icon: "◐" }, { label: "Website", icon: "◉" }, { label: "TikTok", icon: "♫" }] },
     { step: "5", phase: "Discipleship", title: "Truth, made memorable", chips: [{ label: "Animated Bible Lessons", icon: "✺" }] },
     { step: "6", phase: "Impact", title: "Thousands more reached", chips: [{ label: "Lives Touched", icon: "✿" }], variant: "impact" as const },
   ];
 
   return (
-    <section className="section-y relative overflow-hidden bg-[#2A1C14] text-[color:var(--cream)]">
+    <section id="process" className="section-y relative overflow-hidden bg-[#2A1C14] text-[color:var(--cream)]">
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.16]"
         style={{
@@ -181,41 +204,41 @@ function SermonFlow() {
           <div className="mt-14 rounded-[2rem] border border-[color:var(--gold)]/25 bg-[#F3EBDD] p-6 md:p-10 shadow-[0_24px_60px_-30px_rgba(42,28,20,0.18)]">
             <div className="flow-rail overflow-visible pb-2">
               <div className="flow-rail__track min-w-0">
-              {cards.map((card) => (
-                <article key={card.step} className="flow-step group">
-                  <div
-                    className={`flow-step__badge ${
-                      card.variant === "origin"
-                        ? "flow-step__badge--origin"
-                        : card.variant === "impact"
-                        ? "flow-step__badge--impact"
-                        : ""
-                    }`}
-                  >
-                    {card.step}
-                  </div>
-                  <div
-                    className={`flow-step__card ${
-                      card.variant === "origin"
-                        ? "flow-step__card--origin"
-                        : card.variant === "impact"
-                        ? "flow-step__card--impact"
-                        : ""
-                    }`}
-                  >
-                    <div className="flow-step__phase">{card.phase}</div>
-                    <h3 className="flow-step__title">{card.title}</h3>
-                    <div className="mt-4 space-y-2">
-                      {card.chips.map((chip) => (
-                        <div key={chip.label} className="flow-step__chip">
-                          <span className="flow-step__chip-icon">{chip.icon}</span>
-                          <span>{chip.label}</span>
-                        </div>
-                      ))}
+                {cards.map((card) => (
+                  <article key={card.step} className="flow-step group">
+                    <div
+                      className={`flow-step__badge ${
+                        card.variant === "origin"
+                          ? "flow-step__badge--origin"
+                          : card.variant === "impact"
+                          ? "flow-step__badge--impact"
+                          : ""
+                      }`}
+                    >
+                      {card.step}
                     </div>
-                  </div>
-                </article>
-              ))}
+                    <div
+                      className={`flow-step__card flow-step__card--equal ${
+                        card.variant === "origin"
+                          ? "flow-step__card--origin"
+                          : card.variant === "impact"
+                          ? "flow-step__card--impact"
+                          : ""
+                      }`}
+                    >
+                      <div className="flow-step__phase">{card.phase}</div>
+                      <h3 className="flow-step__title">{card.title}</h3>
+                      <div className="mt-4 space-y-2">
+                        {card.chips.map((chip) => (
+                          <div key={chip.label} className="flow-step__chip">
+                            <span className="flow-step__chip-icon">{chip.icon}</span>
+                            <span>{chip.label}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </article>
+                ))}
               </div>
             </div>
           </div>
@@ -241,28 +264,23 @@ function SermonFlow() {
   );
 }
 
-/* ---------- 4. PORTFOLIO ---------- */
+/* ---------- PORTFOLIO ---------- */
 function Portfolio() {
   return (
-    <section className="section-y relative overflow-hidden bg-[color:var(--background)]">
+    <section id="productions" className="section-y relative overflow-hidden bg-[color:var(--background)]">
       <FilmReelBackdrop panelTop={reelPanel1} panelBottom={reelPanel2} />
       <div className="container-page relative z-[1]">
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <Reveal>
-            <div>
-              <div className="eyebrow">Recent Work</div>
-              <h2 className="mt-5 font-serif text-4xl md:text-6xl leading-[1.05]">Selected Productions</h2>
-            </div>
-          </Reveal>
-          <Reveal delay={150}>
-            <Link to="/work" className="btn-ghost">See all work</Link>
-          </Reveal>
-        </div>
+        <Reveal>
+          <div className="text-center">
+            <div className="eyebrow">Recent Work</div>
+            <h2 className="mt-5 font-serif text-4xl md:text-6xl leading-[1.05]">Selected Productions</h2>
+          </div>
+        </Reveal>
 
-        <div className="mt-16 grid grid-cols-2 gap-10">
+        <div className="mx-auto mt-16 grid max-w-5xl grid-cols-2 gap-10">
           {productionVideos.map((item, i) => (
             <Reveal key={item.title + i} delay={i * 100}>
-              <ProductionVideo item={item} />
+              <ProductionVideo item={item} showMeta={false} />
             </Reveal>
           ))}
         </div>
@@ -271,241 +289,102 @@ function Portfolio() {
   );
 }
 
-/* ---------- 5. PROCESS TIMELINE ---------- */
-function ProcessTimeline() {
-  const steps = [
+/* ---------- PARTNERSHIP SERVICES ---------- */
+function PartnershipServices() {
+  const tiers = [
     {
-      t: "Share Your Vision",
-      d: "We listen first. Your church, your voice, your audience — and the valuable content you already have.",
-      icon: "✦",
-      phase: "Week 01",
-      bullets: ["Discovery call", "Content audit", "Ministry goals"],
+      eyebrow: "Partnership 01",
+      title: "Essential Ministry",
+      sub: "For churches publishing weekly sermons and ministries getting started with content expansion.",
+      benefits: ["Sermon Enhancement", "Scripture Callouts", "Visual Graphics", "Monthly Content Support"],
     },
     {
-      t: "Receive Creative Strategy",
-      d: "A clear plan for maximizing your existing content — formats, cadence, and channels designed for your ministry's rhythm.",
-      icon: "❋",
-      phase: "Week 02",
-      bullets: ["Content roadmap", "Channel mix", "Repurposing plan"],
+      eyebrow: "Partnership 02",
+      title: "Growth Ministry",
+      sub: "For ministries seeking stronger engagement across YouTube and social media.",
+      benefits: [
+        "Everything in Essential",
+        "YouTube Shorts",
+        "Social Media Content",
+        "Enhanced Storytelling",
+        "Content Repurposing",
+      ],
     },
     {
-      t: "Production Begins",
-      d: "Sermon enhancement, animation, audio mastering, and visual storytelling — all in motion behind the scenes.",
-      icon: "✺",
-      phase: "Week 03",
-      bullets: ["Sermon enhancement", "Visual graphics", "Content repurposing"],
-    },
-    {
-      t: "Review & Feedback",
-      d: "Collaborative reviews on a single link. Time-stamped notes — never a headache.",
-      icon: "✿",
-      phase: "Week 04",
-      bullets: ["One review link", "Stamped notes", "Two revision rounds"],
-    },
-    {
-      t: "Publish Everywhere",
-      d: "We deliver and distribute across every channel — helping faithful messages travel farther and engage deeper.",
-      icon: "✶",
-      phase: "Ongoing",
-      bullets: ["Multi-channel publish", "Audience analytics", "Ongoing partnership"],
+      eyebrow: "Partnership 03",
+      title: "Strategic Ministry Partner",
+      sub: "For organizations producing content at scale and seeking an ongoing media partner.",
+      benefits: [
+        "Dedicated Production Team",
+        "Custom Animation",
+        "Bible Visualizations",
+        "Content Strategy",
+        "Ongoing Creative Partnership",
+      ],
     },
   ];
-  const [active, setActive] = useState(0);
-  const cur = steps[active];
-  const progress = ((active + 1) / steps.length) * 100;
 
   return (
-    <section className="section-y relative overflow-hidden bg-[#2A1C14] text-[color:var(--cream)]">
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.12]"
-        style={{
-          backgroundImage: "radial-gradient(circle at 1px 1px, #C6A15B 1px, transparent 0)",
-          backgroundSize: "28px 28px",
-        }}
-      />
-      <div className="container-page relative">
-        <Reveal>
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <div className="max-w-2xl">
-              <div className="eyebrow text-[color:var(--gold)]">How We Work</div>
-              <h2 className="mt-5 font-serif text-4xl md:text-6xl leading-[1.05] text-[color:var(--cream)]">
-                A stewardship <em className="not-italic text-[color:var(--gold)]">mindset.</em>
-              </h2>
-            </div>
-            <div className="text-xs tracking-[0.2em] uppercase text-[color:var(--cream)]/55">
-              Step <span className="text-[color:var(--gold)] font-semibold">{String(active + 1).padStart(2, "0")}</span>
-              <span className="mx-2 text-[color:var(--gold)]/35">/</span>
-              <span className="text-[color:var(--cream)]/55">{String(steps.length).padStart(2, "0")}</span>
-            </div>
-          </div>
-        </Reveal>
-
-        {/* Horizontal stepper rail */}
-        <Reveal delay={120}>
-          <div className="mt-14 relative">
-            {/* base rail */}
-            <div className="absolute left-0 right-0 top-5 h-px bg-[color:var(--gold)]/20" />
-            {/* progress rail */}
-            <div
-              className="absolute left-0 top-5 h-[2px] bg-gradient-to-r from-[color:var(--gold)] to-[oklch(0.78_0.12_75)] transition-all duration-700 ease-out"
-              style={{ width: `${progress}%` }}
-            />
-            <div className="grid grid-cols-5 gap-2">
-              {steps.map((s, i) => {
-                const isActive = i === active;
-                const isDone = i < active;
-                return (
-                  <button
-                    key={s.t}
-                    onClick={() => setActive(i)}
-                    onMouseEnter={() => setActive(i)}
-                    className="group flex flex-col items-center text-center pt-0 focus:outline-none"
-                  >
-                    <span
-                      className={`relative z-10 grid place-items-center h-10 w-10 rounded-full border-2 transition-all duration-300 ${
-                        isActive
-                          ? "bg-[color:var(--navy)] border-[color:var(--gold)] scale-110 shadow-[0_8px_20px_-6px_rgba(31,53,86,0.45)]"
-                          : isDone
-                          ? "bg-[color:var(--gold)] border-[color:var(--gold)]"
-                          : "bg-[#2A1C14] border-[color:var(--gold)]/30 group-hover:border-[color:var(--gold)]"
-                      }`}
-                    >
-                      <span
-                        className={`font-serif text-sm ${
-                          isActive
-                            ? "text-[color:var(--gold)]"
-                            : isDone
-                            ? "text-[#2A1C14]"
-                            : "text-[color:var(--cream)]/45 group-hover:text-[color:var(--gold)]"
-                        }`}
-                      >
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                    </span>
-                    <span
-                      className={`mt-4 text-[11px] md:text-xs tracking-[0.14em] uppercase transition-colors ${
-                        isActive ? "text-[color:var(--gold)] font-semibold" : "text-[color:var(--cream)]/45"
-                      }`}
-                    >
-                      {s.phase}
-                    </span>
-                    <span
-                      className={`mt-1 block font-serif text-sm leading-snug transition-colors ${
-                        isActive ? "text-[color:var(--cream)]" : "text-[color:var(--cream)]/45 group-hover:text-[color:var(--gold)]"
-                      }`}
-                    >
-                      {s.t}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </Reveal>
-
-        {/* Active panel */}
-        <Reveal delay={200}>
-          <div className="mt-16 grid grid-cols-[1.1fr_1fr] gap-10 items-stretch">
-            {/* Story card */}
-            <div
-              key={`story-${active}`}
-              className="relative rounded-3xl border border-[color:var(--gold)]/15 bg-[#352518] text-[color:var(--cream)] p-10 md:p-14 overflow-hidden shadow-[0_30px_80px_-30px_rgba(0,0,0,0.55)] animate-[float-up_0.5s_ease-out]"
-            >
-              <div
-                className="absolute -top-20 -right-20 h-72 w-72 rounded-full blur-3xl opacity-25"
-                style={{ background: "radial-gradient(closest-side, var(--gold), transparent)" }}
-              />
-              <div className="relative">
-                <div className="flex items-center gap-4">
-                  <span className="grid place-items-center h-14 w-14 rounded-2xl bg-[color:var(--gold)] text-[color:var(--navy)] font-serif text-2xl shadow-lg">
-                    {cur.icon}
-                  </span>
-                  <div>
-                    <div className="text-[11px] tracking-[0.2em] uppercase text-[color:var(--gold)]">{cur.phase}</div>
-                    <div className="font-serif text-xs text-[color:var(--cream)]/55 mt-0.5">
-                      Step {String(active + 1).padStart(2, "0")} of {String(steps.length).padStart(2, "0")}
-                    </div>
-                  </div>
-                </div>
-                <h3 className="mt-10 font-serif text-3xl md:text-5xl leading-[1.08] text-[color:var(--gold)]">{cur.t}</h3>
-                <p className="mt-6 text-[color:var(--cream)]/75 leading-relaxed max-w-lg">{cur.d}</p>
-              </div>
-            </div>
-
-            {/* Deliverables card */}
-            <div
-              key={`del-${active}`}
-              className="rounded-3xl border border-[color:var(--border)] bg-[color:var(--background)] p-10 md:p-12 animate-[float-up_0.6s_ease-out]"
-            >
-              <div className="eyebrow">Deliverables</div>
-              <ul className="mt-8 space-y-5">
-                {cur.bullets.map((b, i) => (
-                  <li key={b} className="flex items-start gap-4">
-                    <span className="mt-2 h-1.5 w-1.5 rounded-full bg-[color:var(--gold)] shrink-0" />
-                    <div className="flex-1 flex items-baseline justify-between gap-4 border-b border-dashed border-[color:var(--border)] pb-4">
-                      <span className="font-serif text-lg md:text-xl text-[color:var(--navy)]">{b}</span>
-                      <span className="text-xs tracking-wider uppercase text-[color:var(--muted-foreground)]">
-                        0{i + 1}
-                      </span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mt-10 flex items-center justify-between">
-                <button
-                  onClick={() => setActive((a) => Math.max(0, a - 1))}
-                  disabled={active === 0}
-                  className="text-sm font-semibold text-[color:var(--navy)] disabled:opacity-30 hover:text-[color:var(--gold)] transition-colors"
-                >
-                  ← Previous
-                </button>
-                <button
-                  onClick={() => setActive((a) => Math.min(steps.length - 1, a + 1))}
-                  disabled={active === steps.length - 1}
-                  className="text-sm font-semibold text-[color:var(--navy)] disabled:opacity-30 hover:text-[color:var(--gold)] transition-colors"
-                >
-                  Next →
-                </button>
-              </div>
-            </div>
-          </div>
-        </Reveal>
-      </div>
-    </section>
-  );
-}
-
-/* ---------- 6. WHY US ---------- */
-function WhyUs() {
-  const cols = [
-    { t: "Extend Reach", d: "Help faithful messages travel farther and reach people wherever they are." },
-    { t: "Repurpose Content", d: "Maximize existing content within your current budget — rather than spending more." },
-    { t: "Engage Younger Audiences", d: "Visual storytelling in formats today\u2019s audiences naturally engage with." },
-    { t: "Preserve Bandwidth", d: "We become an extension of your ministry team, freeing staff to focus on shepherding." },
-  ];
-  return (
-    <section className="section-y bg-[color:var(--background)]">
+    <section id="services" className="section-y bg-white">
       <div className="container-page">
         <Reveal>
-          <div className="text-center max-w-3xl mx-auto">
-            <div className="eyebrow">Why Ministries Can Do More With AVGC Studios</div>
+          <div className="max-w-3xl">
+            <div className="eyebrow">Services</div>
             <h2 className="mt-5 font-serif text-4xl md:text-6xl leading-[1.05]">
-              Ministry-Focused Stewardship.
+              Ways We Can <span className="text-[color:var(--gold)]">Partner.</span>
             </h2>
+            <p className="mt-6 text-[color:var(--muted-foreground)] leading-relaxed max-w-2xl">
+              Our production model enables ministries to access high-quality visual storytelling,
+              animation, content repurposing, and media production at a fraction of the cost
+              typically associated with similar services in North America and Europe.
+            </p>
           </div>
         </Reveal>
 
-        <div className="mt-16 grid grid-cols-4 gap-8">
-          {cols.map((c, i) => (
-            <Reveal key={c.t} delay={i * 100}>
-              <div className="text-center md:text-left">
-                <div className="font-serif text-4xl text-[color:var(--gold)]">
-                  {["✦", "❋", "✺", "✿"][i]}
+        <div className="mt-16 grid grid-cols-3 items-stretch gap-8">
+          {tiers.map((tier, i) => (
+            <Reveal key={tier.title} delay={i * 100}>
+              <article className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-[color:var(--border)] bg-[color:var(--background)] p-8 md:p-10 transition-[border-color] duration-300 hover:border-[color:var(--gold)]/45">
+                <div
+                  className="absolute inset-0 bg-[#2A1C14] translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] group-hover:translate-y-0"
+                  aria-hidden
+                />
+                <div className="relative z-10 flex flex-1 flex-col">
+                  <div className="eyebrow transition-colors duration-300 group-hover:text-[color:var(--gold)]">
+                    {tier.eyebrow}
+                  </div>
+                  <h3 className="mt-4 font-serif text-3xl text-[color:var(--navy)] transition-colors duration-300 group-hover:text-[color:var(--cream)]">
+                    {tier.title}
+                  </h3>
+                  <p className="mt-4 font-serif italic text-lg text-[color:var(--muted-foreground)] leading-relaxed transition-colors duration-300 group-hover:text-[color:var(--cream)]/80">
+                    {tier.sub}
+                  </p>
+                  <div className="mt-8">
+                    <div className="eyebrow text-[color:var(--navy)]/60 transition-colors duration-300 group-hover:text-[color:var(--cream)]/55">
+                      What&rsquo;s Included
+                    </div>
+                    <ul className="mt-4 space-y-3">
+                      {tier.benefits.map((b) => (
+                        <li
+                          key={b}
+                          className="flex items-start gap-3 text-[color:var(--muted-foreground)] transition-colors duration-300 group-hover:text-[color:var(--cream)]/75"
+                        >
+                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--gold)]" />
+                          <span>{b}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-                <h3 className="mt-5 font-serif text-2xl text-[color:var(--navy)]">{c.t}</h3>
-                <p className="mt-3 text-[color:var(--muted-foreground)] leading-relaxed">{c.d}</p>
-              </div>
+                <div className="relative z-10 mt-auto min-h-[2.5rem] pt-8">
+                  <a
+                    href="#contact"
+                    className="inline-flex items-center whitespace-nowrap text-lg font-semibold leading-none text-[color:var(--navy)] opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:text-[color:var(--gold)]"
+                  >
+                    Let&rsquo;s start <span className="ml-2">→</span>
+                  </a>
+                </div>
+              </article>
             </Reveal>
           ))}
         </div>
@@ -514,7 +393,7 @@ function WhyUs() {
   );
 }
 
-/* ---------- 7. TESTIMONIALS ---------- */
+/* ---------- TESTIMONIALS ---------- */
 function Testimonials() {
   const videoItems = [
     {
@@ -548,7 +427,7 @@ function Testimonials() {
   ];
 
   return (
-    <section className="section-y bg-white">
+    <section id="testimonials" className="section-y bg-white">
       <div className="container-page">
         <Reveal>
           <div className="eyebrow">Testimonials</div>
@@ -597,7 +476,7 @@ function Testimonials() {
   );
 }
 
-/* ---------- 8. FAQ ---------- */
+/* ---------- FAQ ---------- */
 function FAQ() {
   const items = [
     { q: "What partnership tiers do you offer?", a: "We offer Essential Ministry, Growth Ministry, and Strategic Ministry Partner — each designed for different stages of content expansion. Contact us to find the right fit for your ministry." },
@@ -607,12 +486,11 @@ function FAQ() {
   ];
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section className="section-y bg-[color:var(--background)]">
+    <section id="faq" className="section-y bg-[color:var(--background)]">
       <div className="container-page grid grid-cols-[1fr_2fr] gap-16">
         <Reveal>
           <div>
-            <div className="eyebrow">Questions</div>
-            <h2 className="mt-5 font-serif text-4xl md:text-5xl leading-[1.05]">Frequently Asked</h2>
+            <h2 className="font-serif text-4xl md:text-5xl leading-[1.05]">Frequently Asked Questions</h2>
             <p className="mt-6 text-[color:var(--muted-foreground)] max-w-sm">
               Still curious? We&rsquo;d love to talk through your ministry&rsquo;s specific needs.
             </p>
@@ -653,38 +531,6 @@ function FAQ() {
               );
             })}
           </ul>
-        </Reveal>
-      </div>
-    </section>
-  );
-}
-
-/* ---------- 9. CTA ---------- */
-function CTA() {
-  return (
-    <section className="bg-[#2A1C14] text-[color:var(--cream)]">
-      <div className="container-page section-y text-center">
-        <Reveal>
-          <div className="eyebrow text-[color:var(--gold)]">Begin Today</div>
-        </Reveal>
-        <Reveal delay={100}>
-          <h2 className="mt-6 font-serif text-[clamp(2.25rem,6vw,5rem)] leading-[1.05] text-[color:var(--cream)] max-w-4xl mx-auto">
-            Help faithful messages travel farther.
-          </h2>
-        </Reveal>
-        <Reveal delay={220}>
-          <p className="mt-8 max-w-xl mx-auto text-[color:var(--cream)]/70 leading-relaxed">
-            Our goal is simple: to help faithful messages travel farther, engage deeper,
-            and impact more lives.
-          </p>
-        </Reveal>
-        <Reveal delay={320}>
-          <div className="mt-12 flex flex-wrap justify-center gap-4">
-            <Link to="/contact" className="btn-gold">Schedule a Conversation</Link>
-            <Link to="/work" className="btn-ghost text-[color:var(--cream)] border-[color:var(--cream)]/30 hover:!text-[color:var(--cream)]">
-              View Our Work
-            </Link>
-          </div>
         </Reveal>
       </div>
     </section>

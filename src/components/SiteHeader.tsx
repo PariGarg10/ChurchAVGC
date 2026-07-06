@@ -1,13 +1,11 @@
-import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 
 const nav = [
-  { to: "/", label: "Home" },
-  { to: "/services", label: "Services" },
-  { to: "/work", label: "Work" },
-  { to: "/process", label: "Process" },
-  { to: "/about", label: "About" },
-  { to: "/resources", label: "Resources" },
+  { href: "#stewardship", label: "Process" },
+  { href: "#productions", label: "Work" },
+  { href: "#services", label: "Services" },
+  { href: "#testimonials", label: "Testimonials" },
+  { href: "#faq", label: "FAQ" },
 ] as const;
 
 export function SiteHeader({ transparent = false }: { transparent?: boolean }) {
@@ -32,7 +30,7 @@ export function SiteHeader({ transparent = false }: { transparent?: boolean }) {
       }`}
     >
       <div className="container-page flex h-20 items-center justify-between gap-6">
-        <Link to="/" className="flex items-center gap-2 group">
+        <a href="#home" className="flex items-center gap-2 group">
           <span
             className={`font-serif text-xl tracking-tight ${
               solid ? "text-[color:var(--navy)]" : "text-[color:var(--cream)]"
@@ -40,30 +38,28 @@ export function SiteHeader({ transparent = false }: { transparent?: boolean }) {
           >
             AVGC Studios
           </span>
-        </Link>
+        </a>
 
         <nav className="hidden lg:flex items-center gap-9">
           {nav.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
+            <a
+              key={item.href}
+              href={item.href}
               className={`text-sm font-medium transition-colors ${
                 solid
                   ? "text-[color:var(--ink)] hover:text-[color:var(--gold)]"
                   : "text-[color:var(--cream)]/90 hover:text-[color:var(--gold)]"
               }`}
-              activeProps={{ style: { color: "var(--gold)" } }}
-              activeOptions={{ exact: item.to === "/" }}
             >
               {item.label}
-            </Link>
+            </a>
           ))}
         </nav>
 
         <div className="hidden lg:flex items-center">
-          <Link to="/contact" className="btn-primary" style={{ height: 44, padding: "0 1.25rem" }}>
+          <a href="#contact" className="btn-primary" style={{ height: 44, padding: "0 1.25rem" }}>
             Schedule a Conversation
-          </Link>
+          </a>
         </div>
 
         <button
@@ -81,18 +77,18 @@ export function SiteHeader({ transparent = false }: { transparent?: boolean }) {
         <div className="lg:hidden bg-[color:var(--cream)] border-t border-[color:var(--border)]">
           <div className="container-page py-6 flex flex-col gap-4">
             {nav.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
+              <a
+                key={item.href}
+                href={item.href}
                 onClick={() => setOpen(false)}
                 className="text-base font-medium text-[color:var(--ink)]"
               >
                 {item.label}
-              </Link>
+              </a>
             ))}
-            <Link to="/contact" onClick={() => setOpen(false)} className="btn-primary mt-2">
+            <a href="#contact" onClick={() => setOpen(false)} className="btn-primary mt-2">
               Schedule a Conversation
-            </Link>
+            </a>
           </div>
         </div>
       )}

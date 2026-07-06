@@ -22,6 +22,6 @@ export const productionVideos: ProductionVideoItem[] = [
     tag: "Featured Production",
     videoSrc: "/videos/production-2.mp4",
     poster: "/videos/production-2-poster.png",
-    posterPosition: "center 28%",
+    posterPosition: "38% 18%",
   },
 ];

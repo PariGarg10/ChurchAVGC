@@ -1,4 +1,3 @@
-import { Link } from "@tanstack/react-router";
 import { CONTACT_EMAIL } from "@/lib/contact";
 
 export function SiteFooter() {
@@ -18,16 +17,16 @@ export function SiteFooter() {
           <div className="eyebrow text-[color:var(--gold)]">Explore</div>
           <ul className="mt-4 space-y-3 text-sm">
             {[
-              ["/services", "Services"],
-              ["/work", "Work"],
-              ["/process", "Process"],
-              ["/about", "About"],
-              ["/resources", "Resources"],
-            ].map(([to, label]) => (
-              <li key={to}>
-                <Link to={to} className="hover:text-[color:var(--gold)] transition-colors">
+              ["#services", "Services"],
+              ["#productions", "Work"],
+              ["#stewardship", "Process"],
+              ["#testimonials", "Testimonials"],
+              ["#faq", "FAQ"],
+            ].map(([href, label]) => (
+              <li key={href}>
+                <a href={href} className="hover:text-[color:var(--gold)] transition-colors">
                   {label}
-                </Link>
+                </a>
               </li>
             ))}
           </ul>
@@ -40,12 +39,10 @@ export function SiteFooter() {
                 {CONTACT_EMAIL}
               </a>
             </li>
-            <li>+91 92669 85959</li>
-            <li>WhatsApp · Mon–Sat</li>
           </ul>
-          <Link to="/contact" className="btn-gold mt-6" style={{ height: 48 }}>
+          <a href="#contact" className="btn-gold mt-6 inline-flex" style={{ height: 48 }}>
             Start a Conversation
-          </Link>
+          </a>
         </div>
       </div>
       <div className="border-t border-white/10">
