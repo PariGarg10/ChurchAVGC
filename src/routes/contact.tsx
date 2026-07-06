@@ -3,7 +3,7 @@ import { useState } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
-import team from "@/assets/team.jpg";
+import { CONTACT_EMAIL, submitConversationRequest } from "@/lib/contact";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -19,6 +19,34 @@ export const Route = createFileRoute("/contact")({
 
 function ContactPage() {
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setSending(true);
+    setError(null);
+
+    const form = e.currentTarget;
+    const data = new FormData(form);
+
+    try {
+      await submitConversationRequest({
+        name: String(data.get("name") ?? ""),
+        org: String(data.get("org") ?? ""),
+        email: String(data.get("email") ?? ""),
+        phone: String(data.get("phone") ?? ""),
+        message: String(data.get("message") ?? ""),
+      });
+      setSent(true);
+      form.reset();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setSending(false);
+    }
+  }
+
   return (
     <div>
       <SiteHeader />
@@ -37,16 +65,6 @@ function ContactPage() {
         </div>
       </section>
 
-      <section className="pb-16">
-        <div className="container-page">
-          <Reveal>
-            <div className="overflow-hidden rounded-2xl">
-              <img src={team} alt="Our team" width={1600} height={1000} loading="lazy" className="w-full h-auto" />
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
       <section className="section-y bg-white">
         <div className="container-page grid lg:grid-cols-2 gap-16">
           <Reveal>
@@ -57,8 +75,16 @@ function ContactPage() {
                 usually within one business day.
               </p>
               <ul className="mt-10 space-y-6">
+                <li className="border-b border-[color:var(--border)] pb-6">
+                  <div className="eyebrow">Email</div>
+                  <a
+                    href={`mailto:${CONTACT_EMAIL}`}
+                    className="mt-2 block font-serif text-2xl text-[color:var(--navy)] hover:text-[color:var(--gold)] transition-colors"
+                  >
+                    {CONTACT_EMAIL}
+                  </a>
+                </li>
                 {[
-                  ["Email", "info@avgcstudio.com"],
                   ["Phone", "+91 92669 85959"],
                   ["Office", "Mon–Sat, 9:30am–6:30pm IST"],
                 ].map(([k, v]) => (
@@ -78,13 +104,7 @@ function ContactPage() {
           </Reveal>
 
           <Reveal delay={150}>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                setSent(true);
-              }}
-              className="card-elev"
-            >
+            <form onSubmit={handleSubmit} className="card-elev">
               <h3 className="font-serif text-2xl text-[color:var(--navy)]">Tell us about your ministry</h3>
               <p className="mt-2 text-sm text-[color:var(--muted-foreground)]">
                 We&rsquo;ll reply within one business day.
@@ -106,8 +126,16 @@ function ContactPage() {
                 </div>
               </div>
 
-              <button type="submit" className="btn-primary mt-8 w-full" disabled={sent}>
-                {sent ? "Thank you — we'll be in touch." : "Schedule a consultation"}
+              {error ? (
+                <p className="mt-4 text-sm text-red-700">{error}</p>
+              ) : null}
+
+              <button type="submit" className="btn-primary mt-8 w-full" disabled={sent || sending}>
+                {sent
+                  ? "Thank you — we'll be in touch."
+                  : sending
+                  ? "Sending..."
+                  : "Schedule a consultation"}
               </button>
             </form>
           </Reveal>

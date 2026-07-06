@@ -65,8 +65,7 @@ function Hero() {
 
       <div className="relative container-page flex min-h-screen flex-col justify-end pt-32 pb-20 md:pb-28">
         <div className="max-w-3xl">
-          <div className="eyebrow text-[color:var(--gold)]">AVGC Studios</div>
-          <h1 className="mt-6 font-serif text-[clamp(2.5rem,6vw,5.25rem)] leading-[1.04] tracking-tight text-[color:var(--cream)]">
+          <h1 className="font-serif text-[clamp(2.5rem,6vw,5.25rem)] leading-[1.04] tracking-tight text-[color:var(--cream)]">
             Amplify the Message. <em className="not-italic text-[color:var(--gold)]">Multiply the Impact.</em>
           </h1>
           <p className="mt-6 max-w-2xl text-base md:text-lg leading-relaxed text-[color:var(--cream)]/85">

@@ -12,13 +12,13 @@ import type { ProductionVideoItem } from "@/components/ProductionVideo";
  */
 export const productionVideos: ProductionVideoItem[] = [
   {
-    title: "Production Video 1",
+    title: "Sermon with Visual Storytelling -1",
     tag: "Featured Production",
     videoSrc: "/videos/production-1.mp4",
     poster: "/videos/production-1-poster.png",
   },
   {
-    title: "Production Video 2",
+    title: "Sermon with Visual Storytelling -2",
     tag: "Featured Production",
     videoSrc: "/videos/production-2.mp4",
     poster: "/videos/production-2-poster.png",

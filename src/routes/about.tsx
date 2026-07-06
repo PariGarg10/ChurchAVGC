@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
-import team from "@/assets/team.jpg";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -27,16 +26,6 @@ function AboutPage() {
             <h1 className="mt-6 font-serif text-5xl md:text-7xl leading-[1.04]">
               Who We Are &amp; Our <span className="text-[color:var(--gold)]">Core Competencies.</span>
             </h1>
-          </Reveal>
-        </div>
-      </section>
-
-      <section className="pb-24">
-        <div className="container-page">
-          <Reveal>
-            <div className="overflow-hidden rounded-2xl">
-              <img src={team} alt="Our team" width={1600} height={1000} loading="lazy" className="w-full h-auto" />
-            </div>
           </Reveal>
         </div>
       </section>

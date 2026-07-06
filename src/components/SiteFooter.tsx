@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { CONTACT_EMAIL } from "@/lib/contact";
 
 export function SiteFooter() {
   return (
@@ -34,7 +35,11 @@ export function SiteFooter() {
         <div>
           <div className="eyebrow text-[color:var(--gold)]">Contact</div>
           <ul className="mt-4 space-y-3 text-sm text-[color:var(--cream)]/80">
-            <li>info@avgcstudio.com</li>
+            <li>
+              <a href={`mailto:${CONTACT_EMAIL}`} className="hover:text-[color:var(--gold)] transition-colors">
+                {CONTACT_EMAIL}
+              </a>
+            </li>
             <li>+91 92669 85959</li>
             <li>WhatsApp · Mon–Sat</li>
           </ul>
