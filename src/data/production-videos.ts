@@ -16,7 +16,7 @@ export const productionVideos: ProductionVideoItem[] = [
   {
     title: "Sermon with Visual Storytelling -1",
     tag: "Featured Production",
-    videoSrc: `${baseUrl}videos/production-1.mp4`,
+    videoSrc: "https://res.cloudinary.com/rzfel3mv/video/upload/v1783518421/production-1_ul5dbq.mp4",
     poster: `${baseUrl}videos/production-1-poster.png`,
     posterPosition: "center 40%",
   },
@@ -30,7 +30,7 @@ export const productionVideos: ProductionVideoItem[] = [
   {
     title: "Sermon with Visual Storytelling -3",
     tag: "Featured Production",
-    videoSrc: `${baseUrl}videos/production-3.mp4`,
+    videoSrc: "https://res.cloudinary.com/rzfel3mv/video/upload/v1783518887/production-3_wb9ayt.mp4",
     poster: `${baseUrl}videos/production-2-poster.png`,
   },
 ];
