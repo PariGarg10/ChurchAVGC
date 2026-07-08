@@ -14,6 +14,21 @@ export function getDriveEmbedUrl(url: string): string {
   return `https://drive.google.com/file/d/${id}/preview`;
 }
 
+/** Direct file URL for Drive videos (used for native <video> playback). */
+export function getDriveDirectVideoUrl(url: string): string {
+  const id = getDriveFileId(url);
+  if (!id) return url;
+  return `https://drive.google.com/uc?export=download&id=${id}`;
+}
+
+/** Converts known hosted links into playable file URLs for native video elements. */
+export function getPlayableVideoSrc(url: string): string {
+  if (/drive\.google\.com/i.test(url)) {
+    return getDriveDirectVideoUrl(url);
+  }
+  return url;
+}
+
 /** Thumbnail pulled from a Google Drive video file (first-frame style cover). */
 export function getDriveThumbnailUrl(url: string, width = 1280): string | null {
   const id = getDriveFileId(url);

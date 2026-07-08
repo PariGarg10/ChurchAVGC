@@ -6,10 +6,21 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
+const isVercel = process.env.VERCEL === "1";
+const deployTarget = process.env.DEPLOY_TARGET?.toLowerCase();
+const useVercelPreset = isVercel || deployTarget === "vercel";
+const basePath = useVercelPreset ? "/" : process.env.SITE_BASE_PATH || "/faithservices/";
+
 export default defineConfig({
+  vite: {
+    base: basePath,
+  },
+  nitro: {
+    preset: useVercelPreset ? "vercel" : "node-server",
+  },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-    // nitro/vite builds from this
-    server: { entry: "server" },
+    // nitro/vite builds from this. Supports both Vercel and Passenger targets.
+    server: { entry: "server", preset: useVercelPreset ? "vercel" : "node-server" },
   },
 });

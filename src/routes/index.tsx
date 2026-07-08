@@ -40,8 +40,8 @@ function Home() {
     <div className="bg-[color:var(--background)]">
       <SiteHeader transparent />
       <Hero />
-      <StewardshipSection />
       <SermonFlow />
+      <StewardshipSection />
       <Portfolio />
       <PartnershipServices />
       <Testimonials />
@@ -75,6 +75,13 @@ function Hero() {
           <h1 className="font-serif text-[clamp(2rem,6vw,5.25rem)] leading-[1.04] tracking-tight text-[color:var(--cream)]">
             Amplify the Message. <em className="not-italic text-[color:var(--gold)]">Multiply the Impact.</em>
           </h1>
+          <p className="mt-5 md:mt-6 flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] sm:text-xs md:text-sm tracking-[0.12em] sm:tracking-[0.14em] uppercase text-[color:var(--cream)]/60">
+            <span>Most ministries already have valuable content</span>
+            <span className="hidden sm:inline text-[color:var(--cream)]/35">·</span>
+            <span className="font-serif normal-case italic tracking-normal text-[color:var(--cream)]/70 text-sm sm:text-base md:text-lg">
+              Sermons · Bible Studies · Podcasts · Testimonies · Children&rsquo;s Ministry Lessons
+            </span>
+          </p>
           <p className="mt-5 md:mt-6 max-w-2xl text-sm sm:text-base md:text-lg leading-relaxed text-[color:var(--cream)]/85">
             The challenge isn&rsquo;t creating more content &mdash; it&rsquo;s maximizing the impact
             of the content already being created. We help ministries transform valuable teachings
@@ -83,16 +90,6 @@ function Hero() {
           <div className="mt-8 md:mt-10 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
             <a href="#productions" className="btn-gold w-full sm:w-auto">View Our Work</a>
             <a href="#contact" className="btn-gold w-full sm:w-auto">Schedule a Conversation</a>
-          </div>
-          <p className="mt-8 md:mt-10 text-[10px] sm:text-xs tracking-[0.18em] uppercase text-[color:var(--cream)]/55">
-            Most ministries already have valuable content
-          </p>
-          <div className="mt-4 md:mt-5 flex flex-wrap gap-x-6 sm:gap-x-10 gap-y-2 sm:gap-y-3 text-[color:var(--cream)]/65 font-serif text-base sm:text-lg italic">
-            <span>Sermons</span>
-            <span>· Bible Studies</span>
-            <span>· Podcasts</span>
-            <span>· Testimonies</span>
-            <span>· Children&rsquo;s Ministry Lessons</span>
           </div>
         </div>
       </div>
@@ -113,7 +110,7 @@ function StewardshipSection() {
   const benefits = [
     { icon: "✦", t: "Extend Reach", d: "Help faithful messages travel farther and reach people wherever they are." },
     { icon: "❋", t: "Repurpose Content", d: "Maximize existing content within your current budget — rather than spending more." },
-    { icon: "✺", t: "Engage Younger Audiences", d: "Visual storytelling in formats today\u2019s audiences naturally engage with." },
+    { icon: "✺", t: "Engage Audiences", d: "Visual storytelling in formats today\u2019s audiences naturally engage with." },
     { icon: "✿", t: "Preserve Bandwidth", d: "We become an extension of your ministry team, freeing staff to focus on shepherding." },
   ];
 
@@ -123,7 +120,7 @@ function StewardshipSection() {
         <Reveal>
           <div className="max-w-2xl">
             <h2 className="font-serif text-3xl sm:text-4xl md:text-6xl leading-[1.05] text-[color:var(--navy)]">
-              A stewardship <em className="not-italic text-[color:var(--gold)]">mindset.</em>
+              A Stewardship <em className="not-italic text-[color:var(--gold)]">Mindset.</em>
             </h2>
           </div>
         </Reveal>
@@ -175,12 +172,12 @@ function StewardshipSection() {
 /* ---------- SERMON FLOW ---------- */
 function SermonFlow() {
   const cards = [
-    { step: "1", phase: "Origin", title: "One Sunday", chips: [{ label: "Sunday Sermon", icon: "✦" }], variant: "origin" as const },
+    { step: "1", phase: "Origin", title: "One Sunday", chips: [{ label: "Sunday Sermon", icon: "✦" }] },
     { step: "2", phase: "Craft", title: "Shaped with care", chips: [{ label: "Professional Editing", icon: "✎" }] },
     { step: "3", phase: "Long-form", title: "Where people watch & listen", chips: [{ label: "YouTube", icon: "▶" }, { label: "Podcast", icon: "♪" }, { label: "Facebook", icon: "f" }] },
     { step: "4", phase: "Short-form", title: "Where people scroll", chips: [{ label: "Instagram", icon: "◐" }, { label: "Website", icon: "◉" }, { label: "TikTok", icon: "♫" }] },
     { step: "5", phase: "Discipleship", title: "Truth, made memorable", chips: [{ label: "Animated Bible Lessons", icon: "✺" }] },
-    { step: "6", phase: "Impact", title: "Thousands more reached", chips: [{ label: "Lives Touched", icon: "✿" }], variant: "impact" as const },
+    { step: "6", phase: "Impact", title: "Thousands more reached", chips: [{ label: "Lives Touched", icon: "✿" }] },
   ];
 
   return (
@@ -197,8 +194,7 @@ function SermonFlow() {
       <div className="container-page relative">
         <Reveal>
           <div className="max-w-3xl">
-            <div className="eyebrow text-[color:var(--gold)]">One Message</div>
-            <h2 className="mt-5 font-serif text-3xl sm:text-4xl md:text-6xl leading-[1.05] text-[color:var(--cream)]">
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-6xl leading-[1.05] text-[color:var(--cream)]">
               One Sermon. <em className="not-italic text-[color:var(--gold)]">Many Touchpoints.</em>
             </h2>
             <p className="mt-6 text-[color:var(--cream)]/75 max-w-2xl leading-relaxed">
@@ -213,26 +209,8 @@ function SermonFlow() {
               <div className="flow-rail__track min-w-0">
                 {cards.map((card) => (
                   <article key={card.step} className="flow-step group">
-                    <div
-                      className={`flow-step__badge ${
-                        card.variant === "origin"
-                          ? "flow-step__badge--origin"
-                          : card.variant === "impact"
-                          ? "flow-step__badge--impact"
-                          : ""
-                      }`}
-                    >
-                      {card.step}
-                    </div>
-                    <div
-                      className={`flow-step__card flow-step__card--equal ${
-                        card.variant === "origin"
-                          ? "flow-step__card--origin"
-                          : card.variant === "impact"
-                          ? "flow-step__card--impact"
-                          : ""
-                      }`}
-                    >
+                    <div className="flow-step__badge">{card.step}</div>
+                    <div className="flow-step__card flow-step__card--equal">
                       <div className="flow-step__phase">{card.phase}</div>
                       <h3 className="flow-step__title">{card.title}</h3>
                       <div className="mt-4 space-y-2">
@@ -274,17 +252,18 @@ function SermonFlow() {
 /* ---------- PORTFOLIO ---------- */
 function Portfolio() {
   return (
-    <section id="productions" className="section-y relative overflow-hidden bg-[color:var(--background)]">
+    <section id="productions" className="section-y pt-8 md:pt-12 relative overflow-hidden bg-[color:var(--background)]">
       <FilmReelBackdrop panelTop={reelPanel1} panelBottom={reelPanel2} />
       <div className="container-page relative z-[1]">
         <Reveal>
           <div className="text-center">
-            <div className="eyebrow">Recent Work</div>
-            <h2 className="mt-5 font-serif text-3xl sm:text-4xl md:text-6xl leading-[1.05]">Selected Productions</h2>
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-6xl leading-[1.05]">
+              How We <span className="text-[color:var(--gold)]">Work.</span>
+            </h2>
           </div>
         </Reveal>
 
-        <div className="mx-auto mt-10 md:mt-16 grid max-w-5xl grid-cols-1 sm:grid-cols-2 gap-6 md:gap-10">
+        <div className="mx-auto mt-4 md:mt-8 grid max-w-6xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {productionVideos.map((item, i) => (
             <Reveal key={item.title + i} delay={i * 100}>
               <ProductionVideo item={item} showMeta={false} />
@@ -345,8 +324,7 @@ function PartnershipServices() {
       <div className="container-page relative">
         <Reveal>
           <div className="max-w-3xl">
-            <div className="eyebrow text-[color:var(--gold)]">Services</div>
-            <h2 className="mt-5 font-serif text-3xl sm:text-4xl md:text-6xl leading-[1.05] text-[color:var(--cream)]">
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-6xl leading-[1.05] text-[color:var(--cream)]">
               Ways We Can <span className="text-[color:var(--gold)]">Partner.</span>
             </h2>
             <p className="mt-5 md:mt-6 text-sm sm:text-base text-[color:var(--cream)]/75 leading-relaxed max-w-2xl">
@@ -360,32 +338,32 @@ function PartnershipServices() {
         <div className="mt-10 md:mt-16 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-stretch gap-6 md:gap-8">
           {tiers.map((tier, i) => (
             <Reveal key={tier.title} delay={i * 100}>
-              <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl sm:rounded-3xl border border-[color:var(--gold)]/25 bg-[color:var(--background)] p-6 sm:p-8 md:p-10 transition-[border-color] duration-300 hover:border-[color:var(--gold)]/45">
+              <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl sm:rounded-3xl border border-[color:var(--gold)]/25 bg-[color:var(--background)] p-6 sm:p-8 md:p-10 transition-[border-color] duration-500 hover:border-[color:var(--gold)]">
                 <div
-                  className="absolute inset-0 bg-[#2A1C14] translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] group-hover:translate-y-0"
+                  className="absolute inset-0 bg-[rgba(198,161,91,0.92)] translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] group-hover:translate-y-0"
                   aria-hidden
                 />
                 <div className="relative z-10 flex flex-1 flex-col">
-                  <div className="eyebrow transition-colors duration-300 group-hover:text-[color:var(--gold)]">
+                  <div className="eyebrow transition-colors duration-300 group-hover:text-[#2A1C14]">
                     {tier.eyebrow}
                   </div>
-                  <h3 className="mt-4 font-serif text-2xl sm:text-3xl text-[color:var(--navy)] transition-colors duration-300 group-hover:text-[color:var(--cream)]">
+                  <h3 className="mt-4 font-serif text-2xl sm:text-3xl text-[color:var(--navy)] transition-colors duration-300 group-hover:text-[#2A1C14]">
                     {tier.title}
                   </h3>
-                  <p className="mt-4 font-serif italic text-base sm:text-lg text-[color:var(--muted-foreground)] leading-relaxed transition-colors duration-300 group-hover:text-[color:var(--cream)]/80">
+                  <p className="mt-4 font-serif italic text-base sm:text-lg text-[color:var(--muted-foreground)] leading-relaxed transition-colors duration-300 group-hover:text-[#2A1C14]/80">
                     {tier.sub}
                   </p>
                   <div className="mt-8">
-                    <div className="eyebrow text-[color:var(--navy)]/60 transition-colors duration-300 group-hover:text-[color:var(--cream)]/55">
+                    <div className="eyebrow text-[color:var(--navy)]/60 transition-colors duration-300 group-hover:text-[#2A1C14]/70">
                       What&rsquo;s Included
                     </div>
                     <ul className="mt-4 space-y-3">
                       {tier.benefits.map((b) => (
                         <li
                           key={b}
-                          className="flex items-start gap-3 text-[color:var(--muted-foreground)] transition-colors duration-300 group-hover:text-[color:var(--cream)]/75"
+                          className="flex items-start gap-3 text-[color:var(--muted-foreground)] transition-colors duration-300 group-hover:text-[#2A1C14]/85"
                         >
-                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--gold)]" />
+                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--gold)] group-hover:bg-[#2A1C14]" />
                           <span>{b}</span>
                         </li>
                       ))}
@@ -395,7 +373,7 @@ function PartnershipServices() {
                 <div className="relative z-10 mt-auto min-h-[2.5rem] pt-8">
                   <a
                     href="#contact"
-                    className="inline-flex items-center whitespace-nowrap text-base sm:text-lg font-semibold leading-none text-[color:var(--gold)] opacity-100 transition-all duration-300 lg:opacity-0 lg:group-hover:opacity-100 lg:group-hover:text-[color:var(--gold)]"
+                    className="inline-flex items-center whitespace-nowrap text-base sm:text-lg font-semibold leading-none text-[color:var(--gold)] opacity-100 transition-all duration-300 lg:opacity-0 lg:group-hover:opacity-100 lg:group-hover:text-[#2A1C14]"
                   >
                     Let&rsquo;s start <span className="ml-2">→</span>
                   </a>
@@ -428,14 +406,14 @@ function Testimonials() {
   const quoteItems = [
     {
       quote:
-        "We have worked with AVGC Studios for a year now on video editing, illustrations, and ILO development projects. They consistently deliver high-quality, polished, creative output while working with tight timelines and large volumes. Their quality control is solid, their communication is smooth, and they address review notes quickly. They\u2019re a reliable and valued partner!",
+        "We have worked with AVGC Studios for a year now on video editing, illustrations, and ILO development projects. They consistently deliver high-quality, polished, creative output while working with tight timelines and large volumes. Their quality control is solid, their communication is smooth, and they address review notes quickly. They’re a reliable and valued partner!",
       name: "Sohini Ghoshal",
       church: "Project Manager, Creator UP",
       img: testimonialSohini,
     },
     {
       quote:
-        "Although Shackleton Kids is a children\u2019s publisher, a few years ago we decided to create our own YouTube channel where we upload animated versions of our stories. Two years ago, we met AVGC Studios, and since then they have become our partner for the development of our audiovisual content, with whom we continue to work year after year. I could highlight the quality of their work, their flexibility in adapting to our needs, or their punctuality in deliveries, but for me the most important thing is the feeling of transparency and honesty. That\u2019s why we\u2019ve just renewed our contract with them for another year.",
+        "Although Shackleton Kids is a children’s publisher, a few years ago we decided to create our own YouTube channel where we upload animated versions of our stories. Two years ago, we met AVGC Studios, and since then they have become our partner for the development of our audiovisual content, with whom we continue to work year after year. I could highlight the quality of their work, their flexibility in adapting to our needs, or their punctuality in deliveries, but for me the most important thing is the feeling of transparency and honesty. That’s why we’ve just renewed our contract with them for another year.",
       name: "Eduardo Acin",
       church: "Partner & Publishing Director, Shackleton Kids",
       img: testimonialEduardo,
@@ -446,7 +424,7 @@ function Testimonials() {
     <section id="testimonials" className="section-y bg-white">
       <div className="container-page">
         <Reveal>
-          <div className="eyebrow">Testimonials</div>
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-[color:var(--navy)]">Meet Our <span className="text-[color:var(--gold)]">Clients.</span></h2>
         </Reveal>
 
         <div className="mt-8 md:mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -506,7 +484,7 @@ function FAQ() {
       <div className="container-page grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-8 lg:gap-16">
         <Reveal>
           <div>
-            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl leading-[1.05]">Frequently Asked Questions</h2>
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl leading-[1.05]">FAQs</h2>
             <p className="mt-6 text-[color:var(--muted-foreground)] max-w-sm">
               Still curious? We&rsquo;d love to talk through your ministry&rsquo;s specific needs.
             </p>

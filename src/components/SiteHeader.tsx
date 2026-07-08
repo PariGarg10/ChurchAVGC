@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
 const nav = [
-  { href: "#stewardship", label: "Process" },
-  { href: "#productions", label: "Work" },
-  { href: "#services", label: "Services" },
-  { href: "#testimonials", label: "Testimonials" },
-  { href: "#faq", label: "FAQ" },
+  { href: "/#process", label: "What We Do" },
+  { href: "/#productions", label: "Our Work Samples" },
+  { href: "/#services", label: "How We Partner" },
+  { href: "/#testimonials", label: "Meet Our Clients" },
+  { href: "/#faq", label: "FAQs" },
 ] as const;
 
 export function SiteHeader({ transparent = false }: { transparent?: boolean }) {
@@ -30,22 +30,20 @@ export function SiteHeader({ transparent = false }: { transparent?: boolean }) {
       }`}
     >
       <div className="container-page flex h-16 sm:h-20 items-center justify-between gap-4 sm:gap-6">
-        <a href="#home" className="flex items-center gap-2 group shrink-0">
-          <span
-            className={`font-serif text-lg sm:text-xl tracking-tight ${
-              solid ? "text-[color:var(--navy)]" : "text-[color:var(--cream)]"
-            }`}
-          >
-            AVGC Studios
-          </span>
+        <a href="/" className="flex items-center group shrink-0">
+          <img
+            src={solid ? "/avgc-logo-light.png" : "/avgc-logo-dark.png"}
+            alt="AVGC logo"
+            className="h-12 w-auto sm:h-14 transition-transform group-hover:scale-105"
+          />
         </a>
 
-        <nav className="hidden lg:flex items-center gap-6 xl:gap-9">
+        <nav className="hidden lg:flex items-center gap-5 xl:gap-8">
           {nav.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className={`text-sm font-medium transition-colors ${
+              className={`text-base xl:text-[1.05rem] font-medium transition-colors ${
                 solid
                   ? "text-[color:var(--ink)] hover:text-[color:var(--gold)]"
                   : "text-[color:var(--cream)]/90 hover:text-[color:var(--gold)]"
@@ -57,7 +55,7 @@ export function SiteHeader({ transparent = false }: { transparent?: boolean }) {
         </nav>
 
         <div className="hidden lg:flex items-center shrink-0">
-          <a href="#contact" className="btn-primary !text-sm xl:!text-[0.95rem]" style={{ minHeight: 44, height: 44, padding: "0 1rem" }}>
+          <a href="/#contact" className="btn-primary !text-sm xl:!text-[0.95rem]" style={{ minHeight: 44, height: 44, padding: "0 1rem" }}>
             <span className="hidden xl:inline">Schedule a Conversation</span>
             <span className="xl:hidden">Schedule</span>
           </a>
@@ -83,12 +81,12 @@ export function SiteHeader({ transparent = false }: { transparent?: boolean }) {
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className="text-base font-medium text-[color:var(--ink)]"
+                className="text-lg font-medium text-[color:var(--ink)]"
               >
                 {item.label}
               </a>
             ))}
-            <a href="#contact" onClick={() => setOpen(false)} className="btn-primary mt-2">
+            <a href="/#contact" onClick={() => setOpen(false)} className="btn-primary mt-2">
               Schedule a Conversation
             </a>
           </div>

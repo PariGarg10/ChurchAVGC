@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getDriveEmbedUrl, isEmbedVideoSrc } from "@/lib/video";
+import { getDriveEmbedUrl, getPlayableVideoSrc } from "@/lib/video";
 
 export type ProductionVideoItem = {
   title: string;
@@ -7,6 +7,8 @@ export type ProductionVideoItem = {
   year?: string;
   /** Local file: import from assets or use `/videos/your-file.mp4` in the public folder. */
   videoSrc?: string;
+  /** Optional Google Drive link used as fallback and for "Open in Drive". */
+  driveUrl?: string;
   /** Optional cover image shown before play (import or `/videos/your-poster.jpg`). */
   poster?: string;
   /** Optional object-position for poster image (example: `center 30%`). */
@@ -21,9 +23,14 @@ type ProductionVideoProps = {
 
 export function ProductionVideo({ item, large = false, showMeta = true }: ProductionVideoProps) {
   const [playing, setPlaying] = useState(false);
+  const [nativeFailed, setNativeFailed] = useState(false);
   const videoSrc = item.videoSrc?.trim() ?? "";
+  const driveUrl = item.driveUrl?.trim() ?? (/drive\.google\.com/i.test(videoSrc) ? videoSrc : "");
+  const playableSrc = getPlayableVideoSrc(videoSrc);
+  const embedSrc = driveUrl ? getDriveEmbedUrl(driveUrl) : "";
   const poster = item.poster?.trim() ?? "";
   const hasVideo = Boolean(videoSrc);
+  const hasDriveFallback = Boolean(driveUrl);
   const framed = !showMeta;
 
   const frameClass = `w-full overflow-hidden bg-[#2A1C14] ${
@@ -31,41 +38,51 @@ export function ProductionVideo({ item, large = false, showMeta = true }: Produc
   } ${showMeta ? "rounded-t-3xl" : "rounded-3xl"}`;
 
   const articleClass = framed
-    ? "overflow-hidden rounded-3xl bg-[#2A1C14]"
+    ? "overflow-hidden rounded-3xl border-[3px] border-[#5A3B28] bg-[#2A1C14]"
     : "overflow-hidden border border-[color:var(--border)] bg-[#2A1C14] rounded-3xl";
 
   if (hasVideo && playing) {
-    if (isEmbedVideoSrc(videoSrc)) {
-      return (
-        <article className={articleClass}>
-          <div className={frameClass}>
-            <iframe
-              src={getDriveEmbedUrl(videoSrc)}
-              title={item.title}
-              allow="autoplay; fullscreen"
-              allowFullScreen
-              className="h-full w-full border-0"
-            />
-          </div>
-          {showMeta ? <VideoMeta item={item} /> : null}
-        </article>
-      );
-    }
-
     return (
       <article className={articleClass}>
         <div className={frameClass}>
-          <video
-            src={videoSrc}
-            poster={poster || undefined}
-            controls
-            autoPlay
-            playsInline
-            className={`h-full w-full object-cover ${framed ? "" : "object-contain"}`}
-            style={item.posterPosition ? { objectPosition: item.posterPosition } : undefined}
-          >
-            <track kind="captions" />
-          </video>
+          {hasDriveFallback && nativeFailed ? (
+            <div className="relative h-full w-full overflow-hidden bg-black">
+              <div className="absolute left-1/2 top-1/2 h-[104%] w-[104%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl">
+                <iframe
+                  src={embedSrc}
+                  title={item.title}
+                  allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                  allowFullScreen
+                  className="h-full w-full border-0"
+                />
+              </div>
+            </div>
+          ) : (
+            <video
+              src={playableSrc}
+              poster={poster || undefined}
+              controls
+              autoPlay
+              playsInline
+              onError={() => {
+                if (hasDriveFallback) setNativeFailed(true);
+              }}
+              className="h-full w-full object-cover"
+              style={item.posterPosition ? { objectPosition: item.posterPosition } : undefined}
+            >
+              <track kind="captions" />
+            </video>
+          )}
+          {hasDriveFallback ? (
+            <a
+              href={driveUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="absolute right-3 top-3 z-20 rounded-full bg-black/65 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-black/80"
+            >
+              Open in Drive
+            </a>
+          ) : null}
         </div>
         {showMeta ? <VideoMeta item={item} /> : null}
       </article>
@@ -76,14 +93,17 @@ export function ProductionVideo({ item, large = false, showMeta = true }: Produc
     <article
       className={
         framed
-          ? "group block overflow-hidden rounded-3xl bg-[#2A1C14]"
+          ? "group block overflow-hidden rounded-3xl border-[3px] border-[#5A3B28] bg-[#2A1C14] transition-colors duration-300 hover:border-[color:var(--gold)]"
           : "group block overflow-hidden rounded-3xl border border-[color:var(--border)] bg-[#2A1C14]"
       }
     >
       {hasVideo ? (
         <button
           type="button"
-          onClick={() => setPlaying(true)}
+          onClick={() => {
+            setNativeFailed(false);
+            setPlaying(true);
+          }}
           className="relative block w-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]"
         >
           <VideoFrame

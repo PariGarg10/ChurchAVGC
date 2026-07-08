@@ -1,28 +1,27 @@
 import { CONTACT_EMAIL } from "@/lib/contact";
 
+const exploreLinks = [
+  ["/#process", "What we do"],
+  ["/#productions", "Our work samples"],
+  ["/#services", "How we partner"],
+  ["/#testimonials", "Meet our clients"],
+  ["/#faq", "FAQs"],
+] as const;
+
 export function SiteFooter() {
   return (
     <footer className="bg-[#2A1C14] text-[color:var(--cream)]">
       <div className="container-page py-12 sm:py-16 md:py-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-12">
         <div className="sm:col-span-2">
-          <div className="font-serif text-xl sm:text-2xl">
-            AVGC Studios
-          </div>
+          <div className="font-serif text-xl sm:text-2xl">AVGC Studios</div>
           <p className="mt-4 max-w-md text-sm text-[color:var(--cream)]/70 leading-relaxed">
-            A creative production company, serving ministries worldwide.
-            We help faithful messages travel farther, engage deeper, and impact more lives.
+          A creative production company empowering faithful messages to travel farther, engage deeper, and transform lives worldwide.
           </p>
         </div>
         <div>
           <div className="eyebrow text-[color:var(--gold)]">Explore</div>
           <ul className="mt-4 space-y-3 text-sm">
-            {[
-              ["#services", "Services"],
-              ["#productions", "Work"],
-              ["#stewardship", "Process"],
-              ["#testimonials", "Testimonials"],
-              ["#faq", "FAQ"],
-            ].map(([href, label]) => (
+            {exploreLinks.map(([href, label]) => (
               <li key={href}>
                 <a href={href} className="hover:text-[color:var(--gold)] transition-colors">
                   {label}
@@ -40,7 +39,7 @@ export function SiteFooter() {
               </a>
             </li>
           </ul>
-          <a href="#contact" className="btn-gold mt-6 inline-flex w-full sm:w-auto justify-center" style={{ minHeight: 48 }}>
+          <a href="/#contact" className="btn-gold mt-6 inline-flex w-full sm:w-auto justify-center" style={{ minHeight: 48 }}>
             Start a Conversation
           </a>
         </div>
@@ -60,7 +59,7 @@ export function SiteFooter() {
               </a>
             </div>
           </div>
-          <div className="sm:text-right">For the glory of God and the good of His Church.</div>
+          <div className="sm:text-right">For the glory of the God and the good of His Church.</div>
         </div>
       </div>
     </footer>
