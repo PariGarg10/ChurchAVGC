@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getPlayableVideoSrc } from "@/lib/video";
+import { getDriveEmbedUrl, getPlayableVideoSrc, isEmbedVideoSrc } from "@/lib/video";
 
 export type ProductionVideoItem = {
   title: string;
@@ -21,8 +21,10 @@ type ProductionVideoProps = {
 
 export function ProductionVideo({ item, large = false, showMeta = true }: ProductionVideoProps) {
   const [playing, setPlaying] = useState(false);
+  const [useEmbedFallback, setUseEmbedFallback] = useState(false);
   const videoSrc = item.videoSrc?.trim() ?? "";
   const playableSrc = getPlayableVideoSrc(videoSrc);
+  const embedSrc = isEmbedVideoSrc(videoSrc) ? getDriveEmbedUrl(videoSrc) : "";
   const poster = item.poster?.trim() ?? "";
   const hasVideo = Boolean(videoSrc);
   const framed = !showMeta;
@@ -39,19 +41,32 @@ export function ProductionVideo({ item, large = false, showMeta = true }: Produc
     return (
       <article className={articleClass}>
         <div className={frameClass}>
-          <video
-            src={playableSrc}
-            poster={poster || undefined}
-            controls
-            autoPlay
-            playsInline
-            preload="metadata"
-            onError={() => setPlaying(false)}
-            className="h-full w-full object-cover"
-            style={item.posterPosition ? { objectPosition: item.posterPosition } : undefined}
-          >
-            <track kind="captions" />
-          </video>
+          {useEmbedFallback && embedSrc ? (
+            <iframe
+              src={embedSrc}
+              title={item.title}
+              allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+              allowFullScreen
+              className="h-full w-full border-0"
+            />
+          ) : (
+            <video
+              src={playableSrc}
+              poster={poster || undefined}
+              controls
+              autoPlay
+              playsInline
+              preload="metadata"
+              onError={() => {
+                if (embedSrc) setUseEmbedFallback(true);
+                else setPlaying(false);
+              }}
+              className="h-full w-full object-cover"
+              style={item.posterPosition ? { objectPosition: item.posterPosition } : undefined}
+            >
+              <track kind="captions" />
+            </video>
+          )}
         </div>
         {showMeta ? <VideoMeta item={item} /> : null}
       </article>
@@ -70,6 +85,7 @@ export function ProductionVideo({ item, large = false, showMeta = true }: Produc
         <button
           type="button"
           onClick={() => {
+            setUseEmbedFallback(false);
             setPlaying(true);
           }}
           className="relative block w-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--gold)]"

@@ -23,7 +23,7 @@ export const productionVideos: ProductionVideoItem[] = [
   {
     title: "Sermon with Visual Storytelling -2",
     tag: "Featured Production",
-    videoSrc: "https://drive.google.com/file/d/10G5fEniis8340yEcPO1p0SbF_HV-ALZn/view?usp=sharing",
+    videoSrc: "https://res.cloudinary.com/rzfel3mv/video/upload/v1783519804/production-2_vrm5m1.mp4",
     poster: `${baseUrl}videos/production-3-poster.png`,
     posterPosition: "center center",
   },
