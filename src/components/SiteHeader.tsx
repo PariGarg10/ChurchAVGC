@@ -9,6 +9,7 @@ const nav = [
 ] as const;
 
 export function SiteHeader({ transparent = false }: { transparent?: boolean }) {
+  const baseUrl = import.meta.env.BASE_URL;
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -32,7 +33,7 @@ export function SiteHeader({ transparent = false }: { transparent?: boolean }) {
       <div className="container-page flex h-16 sm:h-20 items-center justify-between gap-4 sm:gap-6">
         <a href="/" className="flex items-center group shrink-0">
           <img
-            src={solid ? "/avgc-logo-light.png" : "/avgc-logo-dark.png"}
+            src={`${baseUrl}${solid ? "avgc-logo-light.png" : "avgc-logo-dark.png"}`}
             alt="AVGC logo"
             className="h-12 w-auto sm:h-14 transition-transform group-hover:scale-105"
           />
@@ -56,8 +57,8 @@ export function SiteHeader({ transparent = false }: { transparent?: boolean }) {
 
         <div className="hidden lg:flex items-center shrink-0">
           <a href="/#contact" className="btn-primary !text-sm xl:!text-[0.95rem]" style={{ minHeight: 44, height: 44, padding: "0 1rem" }}>
-            <span className="hidden xl:inline">Schedule a Conversation</span>
-            <span className="xl:hidden">Schedule</span>
+            <span className="hidden xl:inline">Start a Conversation</span>
+            <span className="xl:hidden">Start</span>
           </a>
         </div>
 
@@ -87,7 +88,7 @@ export function SiteHeader({ transparent = false }: { transparent?: boolean }) {
               </a>
             ))}
             <a href="/#contact" onClick={() => setOpen(false)} className="btn-primary mt-2">
-              Schedule a Conversation
+              Start a Conversation
             </a>
           </div>
         </div>

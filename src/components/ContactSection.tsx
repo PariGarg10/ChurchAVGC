@@ -37,7 +37,7 @@ export function ContactSection() {
       <div className="container-page">
         <Reveal>
           <div className="max-w-3xl">
-            <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl leading-[1.04] text-[color:var(--navy)]">
+            <h2 className="font-serif text-[clamp(1.9rem,4.7vw,3.75rem)] leading-[1.04] text-[color:var(--navy)] whitespace-nowrap">
               Let us help you on <span className="text-[color:var(--gold)]">your mission.</span>
             </h2>
           </div>
@@ -76,7 +76,7 @@ export function ContactSection() {
               {error ? <p className="mt-4 text-sm text-red-700">{error}</p> : null}
 
               <button type="submit" className="btn-primary mt-8 w-full" disabled={sent || sending}>
-                {sent ? "Thank you - we'll be in touch." : sending ? "Sending..." : "Schedule a consultation"}
+                {sent ? "Thank you - we'll be in touch." : sending ? "Sending..." : "Start a conversation"}
               </button>
             </form>
           </div>

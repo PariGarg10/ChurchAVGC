@@ -76,10 +76,18 @@ function Hero() {
             Amplify the Message. <em className="not-italic text-[color:var(--gold)]">Multiply the Impact.</em>
           </h1>
           <p className="mt-5 md:mt-6 flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] sm:text-xs md:text-sm tracking-[0.12em] sm:tracking-[0.14em] uppercase text-[color:var(--cream)]/60">
-            <span>Most ministries already have valuable content</span>
+            <span>Most ministries and churches already have valuable content</span>
             <span className="hidden sm:inline text-[color:var(--cream)]/35">·</span>
-            <span className="font-serif normal-case italic tracking-normal text-[color:var(--cream)]/70 text-sm sm:text-base md:text-lg">
-              Sermons · Bible Studies · Podcasts · Testimonies · Children&rsquo;s Ministry Lessons
+            <span className="font-serif normal-case italic tracking-normal text-[color:var(--cream)]/70 text-sm sm:text-base md:text-lg flex flex-wrap items-center gap-y-1">
+              <span>Sermons</span>
+              <span className="mx-3 text-[color:var(--cream)]/45">·</span>
+              <span>Bible Studies</span>
+              <span className="mx-3 text-[color:var(--cream)]/45">·</span>
+              <span>Podcasts</span>
+              <span className="mx-3 text-[color:var(--cream)]/45">·</span>
+              <span>Testimonies</span>
+              <span className="mx-3 text-[color:var(--cream)]/45">·</span>
+              <span>Children&rsquo;s Ministry Lessons</span>
             </span>
           </p>
           <p className="mt-5 md:mt-6 max-w-2xl text-sm sm:text-base md:text-lg leading-relaxed text-[color:var(--cream)]/85">
@@ -89,7 +97,7 @@ function Hero() {
           </p>
           <div className="mt-8 md:mt-10 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
             <a href="#productions" className="btn-gold w-full sm:w-auto">View Our Work</a>
-            <a href="#contact" className="btn-gold w-full sm:w-auto">Schedule a Conversation</a>
+            <a href="#contact" className="btn-gold w-full sm:w-auto">Start a Conversation</a>
           </div>
         </div>
       </div>
@@ -111,7 +119,7 @@ function StewardshipSection() {
     { icon: "✦", t: "Extend Reach", d: "Help faithful messages travel farther and reach people wherever they are." },
     { icon: "❋", t: "Repurpose Content", d: "Maximize existing content within your current budget — rather than spending more." },
     { icon: "✺", t: "Engage Audiences", d: "Visual storytelling in formats today\u2019s audiences naturally engage with." },
-    { icon: "✿", t: "Preserve Bandwidth", d: "We become an extension of your ministry team, freeing staff to focus on shepherding." },
+    { icon: "✿", t: "Preserve Bandwidth", d: "We become an extension of your team." },
   ];
 
   return (
@@ -120,7 +128,7 @@ function StewardshipSection() {
         <Reveal>
           <div className="max-w-2xl">
             <h2 className="font-serif text-3xl sm:text-4xl md:text-6xl leading-[1.05] text-[color:var(--navy)]">
-              A Stewardship <em className="not-italic text-[color:var(--gold)]">Mindset.</em>
+              A <em className="not-italic text-[color:var(--gold)]">Stewardship</em> Mindset.
             </h2>
           </div>
         </Reveal>
@@ -149,7 +157,7 @@ function StewardshipSection() {
 
         <Reveal delay={200}>
           <div className="mt-16 text-center max-w-3xl mx-auto">
-            <div className="eyebrow">Why Ministries Can Do More With AVGC Studios</div>
+            <div className="eyebrow">Why Can You Do More With AVGC Studios</div>
           </div>
         </Reveal>
 
@@ -194,10 +202,10 @@ function SermonFlow() {
       <div className="container-page relative">
         <Reveal>
           <div className="max-w-3xl">
-            <h2 className="font-serif text-3xl sm:text-4xl md:text-6xl leading-[1.05] text-[color:var(--cream)]">
+            <h2 className="font-serif text-[clamp(1.5rem,4.5vw,3.75rem)] leading-[1.05] text-[color:var(--cream)] whitespace-nowrap">
               One Sermon. <em className="not-italic text-[color:var(--gold)]">Many Touchpoints.</em>
             </h2>
-            <p className="mt-6 text-[color:var(--cream)]/75 max-w-2xl leading-relaxed">
+            <p className="mt-6 text-[color:var(--cream)]/75 leading-relaxed whitespace-nowrap text-[clamp(0.72rem,1.6vw,1.125rem)]">
               A single message becomes a week of touchpoints &mdash; across platforms, formats, and audiences.
             </p>
           </div>
@@ -253,22 +261,37 @@ function SermonFlow() {
 function Portfolio() {
   return (
     <section id="productions" className="section-y pt-8 md:pt-12 relative overflow-hidden bg-[color:var(--background)]">
-      <FilmReelBackdrop panelTop={reelPanel1} panelBottom={reelPanel2} />
-      <div className="container-page relative z-[1]">
+      <div className="container-page relative z-[2]">
         <Reveal>
           <div className="text-center">
             <h2 className="font-serif text-3xl sm:text-4xl md:text-6xl leading-[1.05]">
-              How We <span className="text-[color:var(--gold)]">Work.</span>
+              Our Work <span className="text-[color:var(--gold)]">Samples.</span>
             </h2>
           </div>
         </Reveal>
-
-        <div className="mx-auto mt-4 md:mt-8 grid max-w-6xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {productionVideos.map((item, i) => (
-            <Reveal key={item.title + i} delay={i * 100}>
-              <ProductionVideo item={item} showMeta={false} />
-            </Reveal>
-          ))}
+      </div>
+      <div className="relative mt-4 md:mt-8">
+        <div className="container-page relative z-[2]">
+          <div className="pointer-events-none" aria-hidden>
+            <div className="film-reel-vintage !relative !left-1/2 !right-auto !w-screen !max-w-none !-translate-x-1/2 !top-0 !opacity-50">
+              <div className="film-reel-vintage__strip" style={{ backgroundImage: `url(${reelPanel1})` }} />
+            </div>
+          </div>
+          <div className="mx-auto my-5 md:my-7 grid max-w-6xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-start">
+            {productionVideos.map((item, i) => (
+              <Reveal key={item.title + i} delay={i * 100}>
+                <ProductionVideo item={item} showMeta={false} />
+              </Reveal>
+            ))}
+          </div>
+          <div className="pointer-events-none" aria-hidden>
+            <div className="film-reel-vintage !relative !left-1/2 !right-auto !w-screen !max-w-none !-translate-x-1/2 !bottom-0 !opacity-45">
+              <div
+                className="film-reel-vintage__strip film-reel-vintage__strip--reverse"
+                style={{ backgroundImage: `url(${reelPanel2})` }}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -287,7 +310,7 @@ function PartnershipServices() {
     {
       eyebrow: "Partnership 02",
       title: "Growth Ministry",
-      sub: "For ministries seeking stronger engagement across YouTube and social media.",
+      sub: "For churches and ministries seeking stronger engagement across YouTube and social media.",
       benefits: [
         "Everything in Essential",
         "YouTube Shorts",
@@ -325,12 +348,12 @@ function PartnershipServices() {
         <Reveal>
           <div className="max-w-3xl">
             <h2 className="font-serif text-3xl sm:text-4xl md:text-6xl leading-[1.05] text-[color:var(--cream)]">
-              Ways We Can <span className="text-[color:var(--gold)]">Partner.</span>
+              Ways We Can Partner.
             </h2>
             <p className="mt-5 md:mt-6 text-sm sm:text-base text-[color:var(--cream)]/75 leading-relaxed max-w-2xl">
-              Our production model enables ministries to access high-quality visual storytelling,
-              animation, content repurposing, and media production at a fraction of the cost
-              typically associated with similar services in North America and Europe.
+              Every message represents prayer, preparation, and purpose. Our role is simply to help
+              that message be seen, understood, and shared by more people through meaningful visual
+              storytelling.
             </p>
           </div>
         </Reveal>
@@ -473,7 +496,7 @@ function Testimonials() {
 /* ---------- FAQ ---------- */
 function FAQ() {
   const items = [
-    { q: "What partnership tiers do you offer?", a: "We offer Essential Ministry, Growth Ministry, and Strategic Ministry Partner — each designed for different stages of content expansion. Contact us to find the right fit for your ministry." },
+    { q: "What partnership tiers do you offer?", a: "We offer Essential Ministry, Growth Ministry, and Strategic Ministry Partnership — each designed for different stages of content expansion." },
     { q: "Do you work with churches of every denomination?", a: "Yes. We collaborate with faith-based organizations, churches, ministries, and mission-focused initiatives across denominations and traditions." },
     { q: "What content can you help us repurpose?", a: "Sermons, Bible studies, podcasts, testimonies, children's ministry lessons, mission updates, and leadership training — all enhanced with visuals, animation, and storytelling." },
     { q: "How do you help ministries reach modern audiences?", a: "The Gospel remains timeless. But reaching modern audiences often requires meeting them where they already are — YouTube, podcasts, social media, streaming platforms, and mobile devices." },
@@ -485,9 +508,6 @@ function FAQ() {
         <Reveal>
           <div>
             <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl leading-[1.05]">FAQs</h2>
-            <p className="mt-6 text-[color:var(--muted-foreground)] max-w-sm">
-              Still curious? We&rsquo;d love to talk through your ministry&rsquo;s specific needs.
-            </p>
           </div>
         </Reveal>
         <Reveal delay={120}>
