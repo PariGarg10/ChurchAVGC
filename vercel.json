@@ -1,4 +1,11 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": ".output/public"
+  "outputDirectory": ".output/public",
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/faithservices/",
+      "permanent": false
+    }
+  ]
 }
